@@ -2,4 +2,4 @@
 cj的算法学习
 
 ## 算法目录
-* XGBoost
+* [XGBoost](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/XGBoost)
