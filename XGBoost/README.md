@@ -105,9 +105,19 @@ XGBoost的参数分为三大类：
     early_stopping_rounds
     a: 在num_boost_round的轮训练中，如果过程中指标经过early_stopping_rounds轮还没有减少那么就停止训练
     b: 指标是通过evals的验证集，计算eval_metric的指标
-    
-
-
+#### 调参过程
+* 设定基础参数{parm0}，基础评判指标{metrics0}；
+* 在训练集上做cross-validation，做训练集/交叉验证集上偏差/方差与树棵树的关系图；
+* 判断模型是过拟合 or 欠拟合，更新相应参数{parm1}；
+* 重复2、3步，确定树的棵树n_estimators；
+* 采用参数{parm1}、n_estimators，训练模型，并应用到测试集；
+#### 调参顺序
+* 最佳迭代次数：n_estimators
+* minchildweight以及max_depth
+* gamma
+* subsample以及colsample_bytree
+* regalpha以及reglambda
+* learning_rate
 
 ## 参考资料
 [XGBoost原文-陈天奇](https://github.com/jackychancjcjcj/ML-DL-Learning/blob/master/XGBoost.pdf)  
