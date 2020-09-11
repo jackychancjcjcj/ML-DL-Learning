@@ -58,7 +58,7 @@ XGBoost的参数分为三大类：
     b: 如果用的是sklearn的api，那么使用n_jobs来代替
 #### Booster Parameters
     n_estimators 总共迭代的次数，即决策树的个数
-    eta [default=0.3] 类似于GBM里面的learning_rate通过在每一步中缩小权重来让模型更加鲁棒一般常用的数值: 0.01-0.2
+    learning_rata [default=0.3] (以前是用eta的，后面已经改了）通过在每一步中缩小权重来让模型更加鲁棒一般常用的数值: 0.01-0.2
     min_child_weight [default=1] 这个参数用来控制过拟合Too high values can lead to under-fitting hence, it should be tuned using CV.
     a: 最小的叶子节点权重
     b: 在普通的GBM中，叶子节点样本没有权重的概念，其实就是等权重的，也就相当于叶子节点样本个数
