@@ -162,7 +162,7 @@ best_parameters = gsearch.best_estimator_.get_params()
 
 ## 参考资料
 [XGBoost原文-陈天奇](https://github.com/jackychancjcjcj/ML-DL-Learning/blob/master/XGBoost.pdf)  
-[XGBoost github源码](https://github.com/jackychancjcjcj/xgboost)
+[XGBoost github源码](https://github.com/jackychancjcjcj/xgboost)  
 [1.Introduction to Boosted Tree](https://github.com/jackychancjcjcj/ML-DL-Learning/blob/master/BoostedTree.pdf)  
 [2.GBDT算法原理及系统设计](https://github.com/jackychancjcjcj/ML-DL-Learning/blob/master/gbdt.pdf)  
 [3.深入理解XGBoost-知乎](https://zhuanlan.zhihu.com/p/83901304)  
