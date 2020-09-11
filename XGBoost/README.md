@@ -118,9 +118,51 @@ XGBoost的参数分为三大类：
 * subsample以及colsample_bytree
 * regalpha以及reglambda
 * learning_rate
+#### Gridsearch
+```python
+import xgboost as xgb
+from sklearn.model_selection import GridSearchCV
+parameters = {
+    'max_depth': [5, 10, 15, 20, 25],
+    'learning_rate': [0.01, 0.02, 0.05, 0.1, 0.15],
+    'n_estimators': [50, 100, 200, 300, 500],
+    'min_child_weight': [0, 2, 5, 10, 20],
+    'max_delta_step': [0, 0.2, 0.6, 1, 2],
+    'subsample': [0.6, 0.7, 0.8, 0.85, 0.95],
+    'colsample_bytree': [0.5, 0.6, 0.7, 0.8, 0.9],
+    'reg_alpha': [0, 0.25, 0.5, 0.75, 1],
+    'reg_lambda': [0.2, 0.4, 0.6, 0.8, 1],
+    'scale_pos_weight': [0.2, 0.4, 0.6, 0.8, 1]
+}
+xlf = xgb.XGBClassifier(max_depth=10,
+                        learning_rate=0.01,
+                        n_estimators=2000,
+                        silent=True,
+                        objective='binary:logistic',
+                        nthread=-1,
+                        gamma=0,
+                        min_child_weight=1,
+                        max_delta_step=0,
+                        subsample=0.85,
+                        colsample_bytree=0.7,
+                        colsample_bylevel=1,
+                        reg_alpha=0,
+                        reg_lambda=1,
+                        scale_pos_weight=1,
+                        seed=1440,
+                        missing=None)
+gsearch = GridSearchCV(xlf, param_grid=parameters, scoring='accuracy', cv=3)
+gsearch.fit(train_x, train_y)
+print("Best score: %0.3f" % gsearch.best_score_)
+print("Best parameters set:")
+best_parameters = gsearch.best_estimator_.get_params()
+```
+
+
 
 ## 参考资料
 [XGBoost原文-陈天奇](https://github.com/jackychancjcjcj/ML-DL-Learning/blob/master/XGBoost.pdf)  
+[XGBoost github源码](https://github.com/jackychancjcjcj/xgboost)
 [1.Introduction to Boosted Tree](https://github.com/jackychancjcjcj/ML-DL-Learning/blob/master/BoostedTree.pdf)  
 [2.GBDT算法原理及系统设计](https://github.com/jackychancjcjcj/ML-DL-Learning/blob/master/gbdt.pdf)  
 [3.深入理解XGBoost-知乎](https://zhuanlan.zhihu.com/p/83901304)  
