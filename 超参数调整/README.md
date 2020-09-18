@@ -134,4 +134,7 @@ Bayes.cv_results_['params']
 #average scores of cross-validation
 Bayes.cv_results_['mean_test_score']
 ```
-缺点是要在2维或3维的搜索空间中得到一个好的代理曲面需要十几个样本，增加搜索空间的维数需要更多的样本。
+缺点是要在2维或3维的搜索空间中得到一个好的代理曲面需要十几个样本，增加搜索空间的维数需要更多的样本。  
+
+## 参考
+[https://mp.weixin.qq.com/s/V3HzYBlOsMo3C_Hf4r2OqA](https://mp.weixin.qq.com/s/V3HzYBlOsMo3C_Hf4r2OqA)
