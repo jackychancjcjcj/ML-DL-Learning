@@ -47,4 +47,4 @@
 * 输出结果非固定，多次运行结果可能不同。（设定random state的话就可以固定）另外如果`k均值`一直在大幅度变化，可能就是数据不适合k-means方法。
 * 数据量过大时可以考虑使用[`MiniBatchKMeans`](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans)。
 * 高维数据上并非所有维度都有意义，这种情况下`k均值`的结果往往不好，通过划分子空间的算法（sub-spacing method）效果可能会更好。
-* 在数据量不大时，可以优先尝试其他算法。当数据量过大时，可以试试HDBSCAN。仅当数据量巨大且无法降维或降低数量时，尝试使用k均值。
+* 在数据量不大时，可以优先尝试其他算法。当数据量过大时，可以试试[`HDBSCAN`](https://github.com/scikit-learn-contrib/hdbscan)。仅当数据量巨大且无法降维或降低数量时，尝试使用`k均值`。
