@@ -23,7 +23,8 @@
 ### Attributes
     cluster_centers_: ndarray of shape (n_clusters, n_features)  
     labels_: ndarray of shape (n_samples,)  
-    inertia_: float Sum of squared distances of samples to their closest cluster center.     n_iter_: int number of iteratios run.  
+    inertia_: float Sum of squared distances of samples to their closest cluster center.     
+    n_iter_: int number of iteratios run.  
 ### Methods
     fit(x,y=None,sample_weight=None) 计算k-means聚合  
         y: Ignored Not used, present here for API consistency by convention  
@@ -42,8 +43,8 @@
     transform
 ### 优化
 * 因为是基于距离的聚类方法，输入数据要缩放（标准化），不同维度差别过大的话，可能会造成少数变量过高的影响。
-* 输入数据类型不同的话，部分是数值型部分是分类变量，需要做特别处理。（用独热编码进行处理，但会使得数据维度上升，但如果使用标签编码就无法很好的处理数据中的顺序。还有一种方法是对于数值类型变量和分类变量分开处理，并将结果结合起来，（如`k-mode`(https://github.com/nicodv/kmodes)）。
+* 输入数据类型不同的话，部分是数值型部分是分类变量，需要做特别处理。（用独热编码进行处理，但会使得数据维度上升，但如果使用标签编码就无法很好的处理数据中的顺序。还有一种方法是对于数值类型变量和分类变量分开处理，并将结果结合起来，（如[`k-mode`](https://github.com/nicodv/kmodes)）。
 * 输出结果非固定，多次运行结果可能不同。（设定random state的话就可以固定）另外如果`k均值`一直在大幅度变化，可能就是数据不适合k-means方法。
-* 数据量过大时可以考虑使用MiniBatchKMeans(https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans)。
+* 数据量过大时可以考虑使用[`MiniBatchKMeans`](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans)。
 * 高维数据上并非所有维度都有意义，这种情况下`k均值`的结果往往不好，通过划分子空间的算法（sub-spacing method）效果可能会更好。
 * 在数据量不大时，可以优先尝试其他算法。当数据量过大时，可以试试HDBSCAN。仅当数据量巨大且无法降维或降低数量时，尝试使用k均值。
