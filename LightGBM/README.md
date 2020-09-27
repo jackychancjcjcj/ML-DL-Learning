@@ -92,5 +92,14 @@ predict(X, raw_score=False, start_iteration=0, num_iteration=None, pred_leaf=Fal
         whether to predict feature contributions  
 ## 调参策略 
 * step 1.确定学习率和估计器数目  
-    das
+    learing_rate, n_estimators
+* step 2.max_depth 和 num_leaves  
+    max_depth, num_leaves  
+* step 3.min_child_sample和min_child_weight  
+    降低过拟合，min_child_sample（较大避免过拟合）和min_child_weight
+* step 4.正则化参数  
+    reg_alpha和reg_lambda  
+* step 5.学习率  
+    降低下学习率  
+    
         
