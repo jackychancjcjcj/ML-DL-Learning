@@ -41,4 +41,5 @@ LightGBM另一个优化是Histogram（直方图）做差加速。一个容易观
 
 ## 参考文章
 https://www.msra.cn/zh-cn/news/features/lightgbm-20170105  
-https://zhuanlan.zhihu.com/p/24498293
+https://zhuanlan.zhihu.com/p/24498293  
+[kaggle神器lightGBM最全解读](https://mp.weixin.qq.com/s/64xfT9WIgF3yEExpSxyshQ)  
