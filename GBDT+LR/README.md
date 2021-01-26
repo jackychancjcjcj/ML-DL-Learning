@@ -72,3 +72,5 @@ lr = LogisticRegression()
 lr.fit(x_train, y_train) 
 y_pred = lr.predict_proba(test)[:, 1]
 ```
+## 参考
+[一项斩获无数金牌的kaggle技巧!](https://mp.weixin.qq.com/s/ustW5VYwjaWdrSdbfcIreQ)
