@@ -4,6 +4,7 @@
 一群数据竞赛大神，包括曾经的KDD冠军台湾大学队伍，kaggle的竞赛狂人Faron等在之前的比赛中对于此类秘技的使用出神入化，也拿了无数的金牌绿牌。后来FaceBook的论文也谈到了此类方案在实际业务中的巨大效果，那究竟是怎么做的呢？  
 本文就结合代码来简单阐述此类方案的整体流程，大家今后的数据赛中也可以收藏一下。  
 Facebook的GBDT+LR策略的大体思路如下图所示，先使用GBDT类的模型训练预测得到叶子节点的预测结果，然后基于叶子结果进行特征的变换，并基于变换后的叶子特征进行LR/FFM/DNN等模型训练预测。  
+![逻辑图](https://github.com/jackychancjcjcj/ML-DL-Learning/blob/master/GBDTandLR.png)
 ## 代码
 ### 训练集测试集划分
 ```python
