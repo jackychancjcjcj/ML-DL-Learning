@@ -64,7 +64,7 @@ np.mean(score_list)
 ## Trick版本
 大致思路：  
 * 用一个较大的learning rate学习得到初始版本模型1；
-* 用一个较小的learning rate在模型1上继续训练得到模型2；
+* 用一个较小的learning rate在模型1上继续训练得到模型2；(注意第二个model训练的时候有个init_model)
 ```python
 import pandas as pd
 import numpy as np
