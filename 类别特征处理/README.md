@@ -17,4 +17,4 @@
 * [14.Sum Encoder (Deviation Encoder, Effect Encoder)]
 * [15.Helmert Encoding]
 * [16.CatBoost Encoding]
-## Label&nbsp;encoding
+## Label encoding
