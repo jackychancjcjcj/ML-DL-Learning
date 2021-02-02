@@ -4,8 +4,8 @@
 * [1.Label encoding](#1)  
 * [2.序列编码(Ordinal Encoding)](#2)
 * [3.独热编码(One-Hot Encoding)](#3)
-* [4.频数编码（Frequency Encoding/Count Encoding）]
-* [5.目标编码（Target Encoding/Mean Encoding）]
+* [4.频数编码(Frequency Encoding/Count Encoding)](#4)
+* [5.目标编码(Target Encoding/Mean Encoding)](#5)
 * [6.Beta Target Encoding]
 * [7.M-Estimate Encoding]
 * [8.James-Stein Encoding]
@@ -17,6 +17,8 @@
 * [14.Sum Encoder (Deviation Encoder, Effect Encoder)]
 * [15.Helmert Encoding]
 * [16.CatBoost Encoding]
+# 参考文章
+[kaggle竞赛之类别特征处理](https://mp.weixin.qq.com/s/qPlh6Gbb-ZvZrESM6e2ZSA)
 ## <span id="1">1.Label encoding</span>
 `Label Encoding`是使用字典的方式，将每个类别标签与不断增加的整数相关联，即生成一个名为class_的实例数组的索引。  
 Scikit-learn中的LabelEncoder是用来对分类型特征值进行编码，即对不连续的数值或文本进行编码。其中包含以下常用方法：
@@ -88,29 +90,15 @@ OneHotEncoder只能对数值型数据进行处理，需要先将文本转化为�
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
-def LabelOneHotEncoder(data, categorical_features):
-    d_num = np.array([])
-    for f in data.columns:
-        if f in categorical_features:
-            le, ohe = LabelEncoder(), OneHotEncoder()
-            data[f] = le.fit_transform(data[f])
-            if len(d_num) == 0:
-                d_num = np.array(ohe.fit_transform(data[[f]]))
-            else:
-                d_num = np.hstack((d_num, ohe.fit_transform(data[[f]]).A))
-        else:
-            if len(d_num) == 0:
-                d_num = np.array(data[[f]])
-            else:
-                d_num = np.hstack((d_num, data[[f]]))
-    return d_num
 df = pd.DataFrame([
     ['green', 'Chevrolet', 2017],
     ['blue', 'BMW', 2015],
     ['yellow', 'Lexus', 2018],
 ])
 df.columns = ['color', 'make', 'year']
-df_new = LabelOneHotEncoder(df, ['color', 'make', 'year'])
+ohe = OneHotEncoder()
+a = ohe.fit_transform(df)
+result = pd.DataFrame(a.toarray(),columns=ohe.get_feature_names())
 ```
 ### 基于Pandas的one hot encoding
 基于Pandas的one hot encoding
@@ -129,6 +117,37 @@ print(df_processed)
 get_dummies的优势在于:
 * 本身就是 pandas 的模块，所以对 DataFrame 类型兼容很好
 * 不管你列是数值型还是字符串型，都可以进行二值化编码
-* 能够根据指令，自动生成二值化编码后的变量名
+* 能够根据指令，自动生成二值化编码后的变量名  
 get_dummies虽然有这么多优点，但毕竟不是 sklearn 里的transformer类型，所以得到的结果得手动输入到 sklearn 里的相应模块，也无法像 sklearn 的transformer一样可以输入到pipeline中进行流程化地机器学习过程。
+## <span id='4'>频数编码(Frequency Encoding/Count Encoding)</span>
+将类别特征替换为训练集中的计数（一般是根据训练集来进行计数，属于统计编码的一种，统计编码，就是用类别的统计特征来代替原始类别，比如类别A在训练集中出现了100次则编码为100）。这个方法对离群值很敏感，所以结果可以归一化或者转换一下（例如使用对数变换）。未知类别可以替换为1。
 
+频数编码使用频次替换类别。有些变量的频次可能是一样的，这将导致碰撞。尽管可能性不是非常大，没法说这是否会导致模型退化，不过原则上我们不希望出现这种情况。
+```python
+import pandas as pd
+data_count = data.groupby('城市')['城市'].agg({'频数':'size'}).reset_index()
+data = pd.merge(data, data_count, on = '城市', how = 'left')
+```
+## <span id='5'>5.目标编码(Target Encoding/Mean Encoding)</span>
+目标编码（target encoding），亦称均值编码（mean encoding）、似然编码（likelihood encoding）、效应编码（impact encoding），是一种能够对高基数（high cardinality）自变量进行编码的方法 (Micci-Barreca 2001) 。  
+如果某一个特征是定性的（categorical），而这个特征的可能值非常多（高基数），那么目标编码（Target encoding）是一种高效的编码方式。在实际应用中，这类特征工程能极大提升模型的性能。  
+一般情况下，针对定性特征，我们只需要使用sklearn的OneHotEncoder或LabelEncoder进行编码。  
+LabelEncoder能够接收不规则的特征列，并将其转化为从0到n-1的整数值（假设一共有n种不同的类别）；OneHotEncoder则能通过哑编码，制作出一个m\*n的稀疏矩阵（假设数据一共有m行，具体的输出矩阵格式是否稀疏可以由sparse参数控制）。  
+定性特征的基数（cardinality）指的是这个定性特征所有可能的不同值的数量。在高基数（high cardinality）的定性特征面前，这些数据预处理的方法往往得不到令人满意的结果。  
+高基数定性特征的例子：IP地址、电子邮件域名、城市名、家庭住址、街道、产品号码。  
+```python
+from category_encoders import TargetEncoder
+import pandas as pd
+from sklearn.datasets import load_boston
+# prepare some data
+bunch = load_boston()
+y_train = bunch.target[0:250]
+y_test = bunch.target[250:506]
+X_train = pd.DataFrame(bunch.data[0:250], columns=bunch.feature_names)
+X_test = pd.DataFrame(bunch.data[250:506], columns=bunch.feature_names)
+# use target encoding to encode two categorical features
+enc = TargetEncoder(cols=['CHAS', 'RAD'])
+# transform the datasets
+training_numeric_dataset = enc.fit_transform(X_train, y_train)
+testing_numeric_dataset = enc.transform(X_test)
+```
