@@ -46,7 +46,8 @@ def model_setting(name):
         return name, rf
         
 def stacking(model_name,model,skf,train_df,test_df):
-
+    
+    oof = np.zeros(train_df.shape[0])
     cols = [col for col in train_df.columns if col not in ['id', 'label']]
     df_importance_list = []
     train_df['prob_{}'.format(model_name)] = 0
@@ -68,6 +69,7 @@ def stacking(model_name,model,skf,train_df,test_df):
                 )
             train_df['prob_{}'.format(model_name)] += model.predict_proba(train_df[cols])[:, 1] / skf.n_splits
             test_df['prob_{}'.format(model_name)] += model.predict_proba(test_df[cols])[:, 1] / skf.n_splits
+            oof[val_idx] = model.predict_proba(val_x)[:, 1]
         elif model_name == 'llf':
             print('--------------------- llf_training ---------------------')
             model.fit(
@@ -78,6 +80,7 @@ def stacking(model_name,model,skf,train_df,test_df):
                     verbose=200)
             train_df['prob_{}'.format(model_name)] += model.predict_proba(train_df[cols])[:, 1] / skf.n_splits
             test_df['prob_{}'.format(model_name)] += model.predict_proba(test_df[cols])[:, 1] / skf.n_splits
+            oof[val_idx] = model.predict_proba(val_x)[:, 1]
         elif model_name == 'clf':
             print('--------------------- clf_training ---------------------')
             model.fit(            
@@ -87,11 +90,13 @@ def stacking(model_name,model,skf,train_df,test_df):
                     verbose=200)
             train_df['prob_{}'.format(model_name)] += model.predict_proba(train_df[cols])[:, 1] / skf.n_splits
             test_df['prob_{}'.format(model_name)] += model.predict_proba(test_df[cols])[:, 1] / skf.n_splits
+            oof[val_idx] = model.predict_proba(val_x)[:, 1]
         elif model_name == 'rf':
             print('--------------------- rf_training ---------------------')
             model.fit(trn_x, trn_y)
             train_df['prob_{}'.format(model_name)] += model.predict_proba(train_df[cols])[:, 1] / skf.n_splits
             test_df['prob_{}'.format(model_name)] += model.predict_proba(test_df[cols])[:, 1] / skf.n_splits
+            oof[val_idx] = model.predict_proba(val_x)[:, 1]
         df_importance = pd.DataFrame({
         'column':cols,
         '{}_feature_importance'.format(model_name):model.feature_importances_,
@@ -126,7 +131,7 @@ def stacking_base_model(base_model_name,base_model,skf,train_df,test_df):
             test_df['prob_final'] += base_model.predict_proba(test_df[cols])[:, 1] / skf.n_splits / len(seeds)
             df_importance = pd.DataFrame({
             'column':cols,
-            'feature_importance':clf.feature_importances_
+            'feature_importance':base_model.feature_importances_
         })
             df_importance_list.append(df_importance)
         cv_auc = roc_auc_score(train_df['label'], oof)
