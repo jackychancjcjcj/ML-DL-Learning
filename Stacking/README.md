@@ -102,7 +102,7 @@ def stacking(model_name,model,skf,train_df,test_df):
         '{}_feature_importance'.format(model_name):model.feature_importances_,
         })
  
-    return train_df,test_df,df_importance
+    return train_df,test_df,df_importance,oof
     
 def stacking_base_model(base_model_name,base_model,skf,train_df,test_df):
     oof = np.zeros(train_df.shape[0])
@@ -140,6 +140,6 @@ def stacking_base_model(base_model_name,base_model,skf,train_df,test_df):
     df_importance = pd.concat(df_importance_list)
     df_importance = df_importance.groupby(['column'])['feature_importance'].agg('mean').sort_values(ascending=False).reset_index()
     print(val_aucs, np.mean(val_aucs))
-    return train_df,test_df,df_importance
+    return train_df,test_df,df_importance,oof
 ```
   
