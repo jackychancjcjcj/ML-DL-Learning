@@ -98,7 +98,7 @@ def stacking(model_name,model,skf,train_df,test_df):
         '{}_feature_importance'.format(model_name):model.feature_importances_,
         })
     train_df['prob_{}'.format(model_name)] = oof
-    return train_df,test_df,df_importance,oof
+    return df_importance,oof
     
 def stacking_base_model(base_model_name,base_model,skf,train_df,test_df):
     oof = np.zeros(train_df.shape[0])
@@ -121,7 +121,7 @@ def stacking_base_model(base_model_name,base_model,skf,train_df,test_df):
                 early_stopping_rounds=200,
                 verbose=200
             )
-            oof[val_idx] = base_model.predict_proba(val_x)[:, 1]
+            oof[val_idx] += base_model.predict_proba(val_x)[:, 1] / len(seeds)
             test_df['prob_final'] += base_model.predict_proba(test_df[cols])[:, 1] / skf.n_splits / len(seeds)
             df_importance = pd.DataFrame({
             'column':cols,
@@ -135,6 +135,6 @@ def stacking_base_model(base_model_name,base_model,skf,train_df,test_df):
     df_importance = df_importance.groupby(['column'])['feature_importance'].agg('mean').sort_values(ascending=False).reset_index()
     train_df['prob_final'] = oof
     print(val_aucs, np.mean(val_aucs))
-    return train_df,test_df,df_importance,oof
+    return df_importance,oof
 ```
   
