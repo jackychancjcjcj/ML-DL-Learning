@@ -12,3 +12,5 @@
 * [Embedding](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/Embedding)
 * [GBDT+LR](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/GBDT%2BLR)
 * [类别特征处理](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E7%B1%BB%E5%88%AB%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86)
+* [树模型初始化](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E6%A0%91%E6%A8%A1%E5%9E%8B%E5%88%9D%E5%A7%8B%E5%8C%96)
+* [模型集成](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90)
