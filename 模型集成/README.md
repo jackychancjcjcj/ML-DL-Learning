@@ -18,4 +18,4 @@
 统计每个样本每个预测结果(常见于分类问题)出现的次数;  
 将每个样本出现的次数最多的那一个(众数)作为我们最终的集成结果.   
 ## <span id='2'>2.Stacking/Blending/Bagging</span>
-
+[Stacking](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/Stacking)
