@@ -16,6 +16,7 @@
 * [模型集成](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90)
 ## 比赛类型
 * [推荐系统解构](https://mp.weixin.qq.com/s/LO9KV7foJyVJRFPjIAT1Ew)
+  * [十大序列化推荐算法](https://mp.weixin.qq.com/s/x8G6Hkq_ocdO1efnCOVfHg)
 * [NLP赛事入门](https://mp.weixin.qq.com/s/IxwCTAGJ6gzqBOJGOBdJvQ)
 * [CV赛事入门](https://mp.weixin.qq.com/s/6Rr6640cZtSsNhErr4ezXQ)
 * [时间序列赛事入门](https://mp.weixin.qq.com/s/63LPCHNo4zOA_UGDAc2xUQ)
