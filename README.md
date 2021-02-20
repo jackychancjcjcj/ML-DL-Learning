@@ -19,4 +19,5 @@
   * [十大序列化推荐算法](https://mp.weixin.qq.com/s/x8G6Hkq_ocdO1efnCOVfHg)
 * [NLP赛事入门](https://mp.weixin.qq.com/s/IxwCTAGJ6gzqBOJGOBdJvQ)
 * [CV赛事入门](https://mp.weixin.qq.com/s/6Rr6640cZtSsNhErr4ezXQ)
+  * [缺陷检测](https://mp.weixin.qq.com/s/-GpT6IBAYPMEUHmULis3rA)
 * [时间序列赛事入门](https://mp.weixin.qq.com/s/63LPCHNo4zOA_UGDAc2xUQ)
