@@ -1,11 +1,11 @@
 # 机器学习四个常用的超参数调试方法
 
-* 传统手工调参
-* 网格搜索
-* 随即搜索
-* 贝叶斯搜索
+* [传统手工调参](#1)
+* [网格搜索](#2)
+* [随即搜索](#3)
+* [贝叶斯搜索](#4)
 
-## 传统手工搜索
+## <span id='1'>传统手工搜索</span>
 ```python
 #importing required libraries
 from sklearn.neighbors import KNeighborsClassifier
@@ -45,7 +45,7 @@ print(f"['algorithm': {best_param[1]} ,'n_neighbors': {best_param[0]}]")
 1. 没办法确保得到最佳的参数组合。  
 2. 这是一个不断试错的过程，所以非常耗时。
 
-## 网格搜索
+## <span id='2'>网格搜索</span>
 网格搜索是一种基本的超参数调优技术，考虑上面的例子，其中两个超参数k_value =[2,3,4,5,6,7,8,9,10] & algorithm =[' auto '， ' ball_tree '， ' kd_tree '， ' brute ']，在这个例子中，它总共构建了9*4 = 36不同的模型。
 ```python
 from sklearn.model_selection import GridSearchCV
@@ -90,7 +90,7 @@ rf = RandomForestClassifier(oob_score=True, random_state=2020,
 rf_params_gridsearch(rf,train_data,kind)
 ```
 
-## 随机搜索
+## <span id='3'>随机搜索</span>
 使用随机搜索代替网络搜索动机是，在许多情况下，所有的超参数可能不是同等重要的。随机搜索从超参数空间中随机选择参数组合，有n_iter给定的固定迭代次数的情况下选择。
 ```python
 from sklearn.model_selection import RandomizedSearchCV
@@ -117,7 +117,7 @@ rand_ser.cv_results_['mean_test_score']
 ```
 缺点是随机搜索不能保证给出最好的参数组合
 
-## 贝叶斯搜索
+## <span id='4'>贝叶斯搜索</span>
 贝叶斯优化属于一类优化算法，称为基于序列模型的优化算法，这些算法使用先前对损失f的观察结果，以确定下一个（最优）点来抽样f。  
 1. 使用先前评估的点X1*:n*，计算损失f的后验期望。  
 2. 在新的点X的抽样损失f，从而最大化f的期望的某些方法。该方法指定f域的哪些区域最适于抽样。  
