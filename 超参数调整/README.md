@@ -76,7 +76,6 @@ grid.cv_results_['mean_test_score']
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import f1_score
 def rf_params_gridsearch(model,train_x,train_y,label_split=None):
-    train_data,test_data,train_target,test_target = train_test_split(train_x,train_y,test_size=0.2,random_state=2020)
     parameters = {'min_samples_split' : range(1,10,1)}
     n_splits=5
     sk = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=2020)
