@@ -69,7 +69,26 @@ grid.cv_results_['params']
 #average scores of cross-validation
 grid.cv_results_['mean_test_score']
 ```
-缺点是尝试了每一个超参数组合，通过交叉验证得分选择最佳组合，速度很慢。
+缺点是尝试了每一个超参数组合，通过交叉验证得分选择最佳组合，速度很慢。  
+
+### 实际应用代码
+```python
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import f1_score
+def rf_params_gridsearch(model,train_x,train_y,label_split=None):
+    train_data,test_data,train_target,test_target = train_test_split(train_x,train_y,test_size=0.2,random_state=2020)
+    parameters = {'min_samples_split' : range(1,10,1)}
+    n_splits=5
+    sk = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=2020)
+    clf = GridSearchCV(model,parameters,cv=sk.split(train_x,train_y),verbose=2,scoring='f1')
+    clf.fit(train_x,train_y)
+    print('rf:')
+    print(clf.best_score_ )
+    print(clf.best_params_)
+rf = RandomForestClassifier(oob_score=True, random_state=2020,
+            n_estimators= 50,max_depth=13,min_samples_split=5)
+rf_params_gridsearch(rf,train_data,kind)
+```
 
 ## 随机搜索
 使用随机搜索代替网络搜索动机是，在许多情况下，所有的超参数可能不是同等重要的。随机搜索从超参数空间中随机选择参数组合，有n_iter给定的固定迭代次数的情况下选择。
