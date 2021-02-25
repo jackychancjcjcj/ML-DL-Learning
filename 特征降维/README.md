@@ -7,6 +7,8 @@
 * [嵌入法(embedded)](#3)
   * [SelectFromModel](#3.1)
 * [线性降维](#4)
+  * [主成分分析法](#4.1)
+  * [线性判别分析法](#4.2)
 ## <span id='1'>过滤法</span>
 `过滤法`按照发散性或者相关性对各个特征进行评分，通过设定阈值或者待选择阈值的个数来选择特征。
 ### <span id='1.1'>VarianceThreshold</span>
@@ -57,7 +59,7 @@ RFE(estimator=LogisticRegression(multi_class='auto',solver='lbfgs',max_iter=500)
 ## <span id='3'>嵌入法</span>
 使用机器学习的算法和模型训练，得到特征重要性，根据这个来选择特征。
 ### <span id='3.1'>SelectFromModel</span>
-基于模型的特征选择法，可以基于惩罚项或者基于树模型。
+基于模型的特征选择法，可以基于惩罚项或者基于树模型。  
 (1) 基于惩罚项：
 ```python
 from sklearn.feature_selection import SelectFromModel
@@ -71,4 +73,22 @@ from sklearn.feature_selection import SelectFromModel
 from sklearn.ensemble import GradientBoostingClassifier
 iris = load_iris()
 SelectFromModel(GradientBoostingClassifier()).fit_transform(iris.data,iris.target)
+```
+## <span id='4'>线性降维</span>
+跟特征选择其实有本质区别。
+### <span id='4.1'>主成分分析法</span>
+将高维的数据映射到低维的空间，期望所得方差最大。
+```python
+from sklearn.decomposition import PCA
+iris = load_iris()
+# 参数n_components是主成分的数目
+PCA(n_components=2).fit_transform(iris.data)
+```
+### <span id='4.2'>线性判别分析法</span>
+是一种有监督的线性降维方法，与PCA不同，目的是使得降维后的数据点尽可能地容易被区分。
+```python
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+iris = load_iris()
+# 参数n_components是主成分的数目
+LDA(n_components=2).fit_transform(iris.data,iris.target)
 ```
