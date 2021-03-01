@@ -9,6 +9,7 @@
 * [线性降维](#4)
   * [主成分分析法](#4.1)
   * [线性判别分析法](#4.2)
+* [实战](#5) 
 ## <span id='1'>过滤法</span>
 `过滤法`按照发散性或者相关性对各个特征进行评分，通过设定阈值或者待选择阈值的个数来选择特征。
 ### <span id='1.1'>VarianceThreshold</span>
@@ -91,4 +92,8 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 iris = load_iris()
 # 参数n_components是主成分的数目
 LDA(n_components=2).fit_transform(iris.data,iris.target)
+```
+## <span id='5'>实战</span>
+```python
+
 ```
