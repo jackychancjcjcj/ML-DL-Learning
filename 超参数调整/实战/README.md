@@ -1,13 +1,13 @@
 # Hyperopt
 hyperopt：是python中的一个用于"分布式异步算法组态/超参数优化"的类库。使用它我们可以拜托繁杂的超参数优化过程，自动获取最佳的超参数。广泛意义上，可以将带有超参数的模型看作是一个必然的非凸函数，因此hyperopt几乎可以稳定的获取比手工更加合理的调参结果。尤其对于调参比较复杂的模型而言，其更是能以远快于人工调参的速度同样获得远远超过人工调参的最终性能。
 ## 前置知识
-hp.choice(label, options)  
+* hp.choice(label, options)  
 返回传入的列表或者数组其中的一个选项。  
-hp.randint(label, upper)  
-返回范围:[0，upper]中的随机整数。  
-hp.uniform(label, low, high)  
+* hp.randint(label, upper)  
+返回范围:[0,upper]中的随机整数。  
+* hp.uniform(label, low, high)  
 返回位于[low,hight]之间的均匀分布的值。在优化时，这个变量被限制为一个双边区间。  
-hp.normal(label, mu, sigma)  
+* hp.normal(label, mu, sigma)  
 返回正态分布的实数值，其平均值为 mu ，标准偏差为 σ。优化时，这是一个无边界的变量。  
 
 ## LGB调参
