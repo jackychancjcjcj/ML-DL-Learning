@@ -1,5 +1,86 @@
 # Hyperopt
+hyperopt：是python中的一个用于"分布式异步算法组态/超参数优化"的类库。使用它我们可以拜托繁杂的超参数优化过程，自动获取最佳的超参数。广泛意义上，可以将带有超参数的模型看作是一个必然的非凸函数，因此hyperopt几乎可以稳定的获取比手工更加合理的调参结果。尤其对于调参比较复杂的模型而言，其更是能以远快于人工调参的速度同样获得远远超过人工调参的最终性能。
+## 前置知识
+hp.choice(label, options)  
+返回传入的列表或者数组其中的一个选项。  
+hp.randint(label, upper)  
+返回范围:[0，upper]中的随机整数。  
+hp.uniform(label, low, high)  
+返回位于[low,hight]之间的均匀分布的值。在优化时，这个变量被限制为一个双边区间。  
+hp.normal(label, mu, sigma)  
+返回正态分布的实数值，其平均值为 mu ，标准偏差为 σ。优化时，这是一个无边界的变量。  
+
 ## LGB调参
+定义参数空间：
+```python
+from hyperopt import fmin, tpe, hp, partial
+
+# 自定义hyperopt的参数空间
+space = {"max_depth": hp.randint("max_depth", 15),
+         "num_trees": hp.randint("num_trees", 300),
+         'learning_rate': hp.uniform('learning_rate', 1e-3, 5e-1),
+         "bagging_fraction": hp.randint("bagging_fraction", 5),
+         "num_leaves": hp.randint("num_leaves", 6),
+         }
+
+def argsDict_tranform(argsDict, isPrint=False):
+    argsDict["max_depth"] = argsDict["max_depth"] + 5
+    argsDict['num_trees'] = argsDict['num_trees'] + 150
+    argsDict["learning_rate"] = argsDict["learning_rate"] * 0.02 + 0.05
+    argsDict["bagging_fraction"] = argsDict["bagging_fraction"] * 0.1 + 0.5
+    argsDict["num_leaves"] = argsDict["num_leaves"] * 3 + 10
+    if isPrint:
+        print(argsDict)
+    else:
+        pass
+
+    return argsDict
+```
+定义model：
+```python
+from sklearn.metrics import mean_squared_error
+
+def lightgbm_factory(argsDict):
+    argsDict = argsDict_tranform(argsDict)
+
+    params = {'nthread': -1,  # 进程数
+              'max_depth': argsDict['max_depth'],  # 最大深度
+              'num_trees': argsDict['num_trees'],  # 树的数量
+              'eta': argsDict['learning_rate'],  # 学习率
+              'bagging_fraction': argsDict['bagging_fraction'],  # bagging采样数
+              'num_leaves': argsDict['num_leaves'],  # 终点节点最小样本占比的和
+              'objective': 'regression',
+              'feature_fraction': 0.7,  # 样本列采样
+              'lambda_l1': 0,  # L1 正则化
+              'lambda_l2': 0,  # L2 正则化
+              'bagging_seed': 100,  # 随机种子,light中默认为100
+              }
+    #rmse
+    params['metric'] = ['rmse']
+
+    model_lgb = lgb.train(params, train_data, num_boost_round=300, valid_sets=[test_data],early_stopping_rounds=100)
+
+    return get_tranformer_score(model_lgb)
+
+def get_tranformer_score(tranformer):
+
+    model = tranformer
+    prediction = model.predict(X_test, num_iteration=model.best_iteration)
+
+    return mean_squared_error(y_test, prediction)
+```
+调参：
+```python
+# 开始使用hyperopt进行自动调参
+algo = partial(tpe.suggest, n_startup_jobs=1)
+best = fmin(lightgbm_factory, space, algo=tpe.suggest, max_evals=20, pass_expr_memo_ctrl=None)
+RMSE = lightgbm_factory(best)
+print('best :', best)
+print('best param after transform :')
+argsDict_tranform(best,isPrint=True)
+print('rmse of the best lightgbm:', np.sqrt(RMSE))
+```
+
 ## XGB调参
 库导入：
 ```python
