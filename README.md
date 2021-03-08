@@ -18,7 +18,11 @@
 ## 比赛类型
 * [推荐系统解构](https://mp.weixin.qq.com/s/LO9KV7foJyVJRFPjIAT1Ew)
   * [十大序列化推荐算法](https://mp.weixin.qq.com/s/x8G6Hkq_ocdO1efnCOVfHg)
+  * [搜搜推荐系统](https://mp.weixin.qq.com/s/--OQ8cQxXNpK3U8oU2s5pQ)
+  * [京东搜索](https://mp.weixin.qq.com/s/vG9grX_V0ksxIOJwWKMVPw)
+  * [爱奇艺短视频推荐](https://mp.weixin.qq.com/s/RwWuZBSaoVXVmZpnyg7FHg)
 * [NLP赛事入门](https://mp.weixin.qq.com/s/IxwCTAGJ6gzqBOJGOBdJvQ)
+  * [Transformer资料汇总](https://mp.weixin.qq.com/s/xKksLUzmtrx5NIN0D9tW0w)
 * [CV赛事入门](https://mp.weixin.qq.com/s/6Rr6640cZtSsNhErr4ezXQ)
   * [缺陷检测](https://mp.weixin.qq.com/s/-GpT6IBAYPMEUHmULis3rA)
 * [时间序列赛事入门](https://mp.weixin.qq.com/s/63LPCHNo4zOA_UGDAc2xUQ)
