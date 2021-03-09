@@ -22,6 +22,8 @@
   * [搜搜推荐系统](https://mp.weixin.qq.com/s/--OQ8cQxXNpK3U8oU2s5pQ)
   * [京东搜索](https://mp.weixin.qq.com/s/vG9grX_V0ksxIOJwWKMVPw)
   * [爱奇艺短视频推荐](https://mp.weixin.qq.com/s/RwWuZBSaoVXVmZpnyg7FHg)
+  * [全民k歌推荐系统](https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&mid=2247534298&idx=1&sn=21ad88daaedaf33566862e27efc29f5e&chksm=fbd7f4b6cca07da043296b689ededb9923057f68e551c2af0f73a805bf4b38f6c9279b019d84&mpshare=1&scene=1&srcid=03081baDSEjGrRiqxVS8hBUe&sharer_sharetime=1615277823230&sharer_shareid=9b869c9a24181fe91d7ddd3f39c6511b&version=3.1.2.2211&platform=win#rd)
+  * [网易云推荐系统](https://mp.weixin.qq.com/s?__biz=MjM5ODkzMzMwMQ==&mid=2650421089&idx=1&sn=774d2fa596a095f29b26db4efac6c5e0&chksm=becdb13b89ba382daac2e30c8f014af9d6324a85f182ffa0166bdc71ecffad9328c1d88b525f&mpshare=1&scene=1&srcid=0309MiobKnaHU0Hov4UeZ9Rd&sharer_sharetime=1615277851361&sharer_shareid=9b869c9a24181fe91d7ddd3f39c6511b&version=3.1.2.2211&platform=win#rd)
 * [NLP赛事入门](https://mp.weixin.qq.com/s/IxwCTAGJ6gzqBOJGOBdJvQ)
   * [Transformer资料汇总](https://mp.weixin.qq.com/s/xKksLUzmtrx5NIN0D9tW0w)
 * [CV赛事入门](https://mp.weixin.qq.com/s/6Rr6640cZtSsNhErr4ezXQ)
