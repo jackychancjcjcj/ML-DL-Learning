@@ -5,7 +5,20 @@
 * [随即搜索](#3)
 * [贝叶斯搜索](#4)
   * [实战](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E6%95%B4/%E5%AE%9E%E6%88%98)
-
+# 样本权重
+构造样本权重信息：
+```python
+# 样本权重信息
+data['n_salesVolume'] = np.log(data['salesVolume']+1)
+df_wei = data.groupby(['province','model'])['n_salesVolume'].agg({'mean'}).reset_index().sort_values('mean')
+df_wei.columns = ['province','model','wei']
+df_wei['wei'] = 10 - df_wei['wei'].values
+data = data.merge(df_wei, on=['province','model'], how='left')
+```
+训练时带上权重信息：
+```python
+dtrain = lgb.Dataset(df[all_idx][features], label=df[all_idx]['n_label'], weight=df[all_idx]['wei'].values)
+```
 ## <span id='1'>传统手工搜索</span>
 ```python
 #importing required libraries
