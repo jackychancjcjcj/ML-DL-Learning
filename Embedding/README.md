@@ -18,6 +18,7 @@ Word Embedding有的时候也被称作为分布式语义模型或向量空间模
 ## 目录
 * [TF-IDF](#1)
 * [Word2Vec](#2)
+* [jieba分词](#3)
 # <span id='1'>TF-IDF</span>
 `TF-IDF`(Term Frequency-inverse Document Frequency)是一种针对关键词的统计分析方法，用于评估一个词对一个文件集或者一个语料库的重要程度。一个词的重要程度跟它在文章中出现的次数成正比，跟它在语料库出现的次数成反比。这种计算方式能有效避免常用词对关键词的影响，提高了关键词与文章之间的相关性。  
 * 其中TF指的是某词在文章中出现的总次数，该指标通常会被归一化定义为TF=（某词在文档中出现的次数/文档的总词量），这样可以防止结果偏向过长的文档（同一个词语在长文档里通常会具有比短文档更高的词频）。
@@ -114,3 +115,16 @@ base_info['tfidif_opscope']=tfidi_opscope
 print('对opscope提取tfidif特征完毕..........')
 ```
 # <span id='2'>Word2Vec</span>
+# <span id='3'>jieba分词</span>
+得到要处理的字符串：（stopword_list可以网上搜）
+```python
+str_tmp=''
+for i in range(len(df['opscope1'])):
+    str_tmp=str_tmp+df['opscope1'][i]
+stopword_list=stopword_list+['）','（','(',')','*','【','】',' ','，',',']  
+```
+得到处理后的结果：
+```python
+words_all=[i for i in jieba.cut(str_tmp) if i not in stopword_list]
+tags1 = jieba.analyse.extract_tags(str_tmp, topK=300)
+```
