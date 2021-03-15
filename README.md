@@ -30,3 +30,4 @@
 * [CV赛事入门](https://mp.weixin.qq.com/s/6Rr6640cZtSsNhErr4ezXQ)
   * [缺陷检测](https://mp.weixin.qq.com/s/-GpT6IBAYPMEUHmULis3rA)
 * [时间序列赛事入门](https://mp.weixin.qq.com/s/63LPCHNo4zOA_UGDAc2xUQ)
+* [风控评分卡](https://zhuanlan.zhihu.com/p/148102950)
