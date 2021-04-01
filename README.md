@@ -28,6 +28,7 @@
   * [AutoInt自动高阶特征交叉](https://mp.weixin.qq.com/s?__biz=MzIwNDA5NDYzNA==&mid=2247490372&idx=1&sn=907a74fb600c417bb3831d33d5fc8553&chksm=96c43681a1b3bf979bfec5ccd7c82d54843e56f8fb5750aba008dc9ce2aedf212f3f54da15fb&mpshare=1&scene=1&srcid=0315VT5WVc0YbivCo2s15Ezu&sharer_sharetime=1615774286716&sharer_shareid=9b869c9a24181fe91d7ddd3f39c6511b&version=3.1.2.2211&platform=win#rd)
 * [NLP赛事入门](https://mp.weixin.qq.com/s/IxwCTAGJ6gzqBOJGOBdJvQ)
   * [Transformer资料汇总](https://mp.weixin.qq.com/s/xKksLUzmtrx5NIN0D9tW0w)
+  * [中文文本分类-bert+pytorch代码](https://github.com/649453932/Bert-Chinese-Text-Classification-Pytorch)
 * [CV赛事入门](https://mp.weixin.qq.com/s/6Rr6640cZtSsNhErr4ezXQ)
   * [缺陷检测](https://mp.weixin.qq.com/s/-GpT6IBAYPMEUHmULis3rA)
 * [时间序列赛事入门](https://mp.weixin.qq.com/s/63LPCHNo4zOA_UGDAc2xUQ)
