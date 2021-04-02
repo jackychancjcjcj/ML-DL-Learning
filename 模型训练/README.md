@@ -31,7 +31,6 @@ for seed in seeds:
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
     for i, (trn_idx, val_idx) in enumerate(skf.split(train_df, train_df['label'])):
         print('--------------------- {} fold ---------------------'.format(i))
-        t = time.time()
         trn_x, trn_y = train_df[cols].iloc[trn_idx].reset_index(drop=True), train_df['label'].values[trn_idx]
         val_x, val_y = train_df[cols].iloc[val_idx].reset_index(drop=True), train_df['label'].values[val_idx]
         clf.fit(
