@@ -2,7 +2,7 @@
 ![Author](https://img.shields.io/badge/Author-CJ-red.svg "Author")
 ![LICENSE](https://img.shields.io/github/license/JoeyBling/hexo-theme-yilia-plus "LICENSE")
 ![Language](https://img.shields.io/badge/Language-python3.6-green.svg "Laguage")
-![Last update](https://img.shields.io/badge/last%20update-12%20Mar%202021-brightgreen.svg?style=flat-square "Last update")
+![Last update](https://img.shields.io/badge/last%20update-02%20Apr%202021-brightgreen.svg?style=flat-square "Last update")
 ## 算法目录
 * [XGBoost](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/XGBoost)
 * [KMeans](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/KMeans)  
@@ -17,6 +17,7 @@
 * [特征降维](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E7%89%B9%E5%BE%81%E9%99%8D%E7%BB%B4)
 * [减少内存](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E5%87%8F%E5%B0%91%E5%86%85%E5%AD%98)
 * [特征工程](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B)
+* [模型训练](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83)
 ## 比赛类型
 * [推荐系统解构](https://mp.weixin.qq.com/s/LO9KV7foJyVJRFPjIAT1Ew)
   * [十大序列化推荐算法](https://mp.weixin.qq.com/s/x8G6Hkq_ocdO1efnCOVfHg)
