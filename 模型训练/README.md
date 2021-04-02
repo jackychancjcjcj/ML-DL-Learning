@@ -54,3 +54,9 @@ for seed in seeds:
     print('\ncv_auc: ', cv_auc)
 print(val_aucs, np.mean(val_aucs))
 ```
+模型重要度：
+```python
+df_importance = pd.concat(df_importance_list)
+df_importance = df_importance.groupby(['column'])['feature_importance'].agg('mean').sort_values(ascending=False).reset_index()
+df_importance.head(10)
+```
