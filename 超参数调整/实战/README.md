@@ -18,9 +18,12 @@ from hyperopt import fmin, tpe, hp, partial
 # 自定义hyperopt的参数空间
 space = {"max_depth": hp.randint("max_depth", 15),
          "num_trees": hp.randint("num_trees", 300),
-         'learning_rate': hp.uniform('learning_rate', 1e-3, 5e-1),
+         "learning_rate": hp.uniform('learning_rate', 1e-3, 5e-1),
+         "min_data_in_leaf": hp.randint("min_data_in_leaf", 100),
          "bagging_fraction": hp.randint("bagging_fraction", 5),
          "num_leaves": hp.randint("num_leaves", 6),
+         "lambda_l1": hp.choice('lambda_l1',[1e-5,1e-3,1e-1,0.0,0.1,0.3,0.5,0.7,0.9,1.0]),
+         "lambda_l2": hp.choice('lambda_l2',[1e-5,1e-3,1e-1,0.0,0.1,0.3,0.5,0.7,0.9,1.0]),
          }
 
 def argsDict_tranform(argsDict, isPrint=False):
