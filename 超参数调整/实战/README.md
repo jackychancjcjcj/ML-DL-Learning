@@ -39,6 +39,17 @@ def argsDict_tranform(argsDict, isPrint=False):
 
     return argsDict
 ```
+定义数据：
+```python
+from sklearn.model_selection import train_test_split
+
+x_train, x_test, y_train, y_test = train_test_split(df[features], df[label], test_size=0.3, random_state=2021)
+
+import lightgbm as lgb
+
+train_data = lgb.Dataset(data=x_train,label=y_train)
+test_data = lgb.Dataset(data=x_test,label=y_test)
+```
 定义model：
 ```python
 from sklearn.metrics import mean_squared_error
