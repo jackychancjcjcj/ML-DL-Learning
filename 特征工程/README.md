@@ -11,9 +11,9 @@
 # ===================== amount_feas 分箱特征 ===============
 for fea in tqdm(amount_feas, desc="分箱特征"):
     # 通过除法映射到间隔均匀的分箱中，每个分箱的取值范围都是loanAmnt/1000
-    df['{}_bin1'.format(fea)] = np.floor_divide(data[fea], 1000)
+    df['{}_bin1'.format(fea)] = np.floor_divide(df[fea], 1000)
     ## 通过对数函数映射到指数宽度分箱
-    df['{}_bin2'.format(fea)] = np.floor(np.log10(data[fea]))
+    df['{}_bin2'.format(fea)] = np.floor(np.log10(df[fea]))
 ```
 ## <span id='2'>基本聚合特征</span>
 ```python
@@ -21,11 +21,11 @@ for fea in tqdm(amount_feas, desc="分箱特征"):
 for f in tqdm(amount_feas, desc="amount_feas 基本聚合特征"):
     for cate in category_fea:
         if f != cate:
-            df['{}_{}_medi'.format(cate, f)] = data.groupby(cate)[f].transform('median')
-            df['{}_{}_mean'.format(cate, f)] = data.groupby(cate)[f].transform('mean')
-            df['{}_{}_max'.format(cate, f)] = data.groupby(cate)[f].transform('max')
-            df['{}_{}_min'.format(cate, f)] = data.groupby(cate)[f].transform('min')
-            df['{}_{}_std'.format(cate, f)] = data.groupby(cate)[f].transform('std')
+            df['{}_{}_medi'.format(cate, f)] = df.groupby(cate)[f].transform('median')
+            df['{}_{}_mean'.format(cate, f)] = df.groupby(cate)[f].transform('mean')
+            df['{}_{}_max'.format(cate, f)] = df.groupby(cate)[f].transform('max')
+            df['{}_{}_min'.format(cate, f)] = df.groupby(cate)[f].transform('min')
+            df['{}_{}_std'.format(cate, f)] = df.groupby(cate)[f].transform('std')
 ```
 ## <span id='3'>一度基本交叉特征</span>
 ```python
