@@ -8,6 +8,8 @@
 * [偏离值特征](#6)
 * [频率特征](#7)
 * [目标编码](#8)
+* [TF-IDF编码](#9)
+* [W2V编码](#10)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -150,4 +152,67 @@ del(df_stas_feat)
 del(df_train)
 del(df_test)
 gc.collect()
+```
+## <span id='9'>TF-IDF编码</span>
+```python
+df_features['便利设施'] = df_features['便利设施'].apply(
+    lambda x: x.replace('{', '').replace('}', '').replace('"', '').replace(':', '').replace(',', ' '))
+# df_features['便利设施'] = df_features['便利设施'].str.lower()
+
+n_components = 12
+
+X = list(df_features['便利设施'].values)
+tfv = TfidfVectorizer(ngram_range=(1,1), max_features=10000)
+tfv.fit(X)
+X_tfidf = tfv.transform(X)
+svd = TruncatedSVD(n_components= n_components)
+svd.fit(X_tfidf)
+X_svd = svd.transform(X_tfidf)
+
+for i in range(n_components):
+    df_features[f'便利设施_tfidf_{i}'] = X_svd[:, i]
+```
+## <span id='10'>W2V编码</span>
+```python
+emb_size = 4
+sentences = df_features['便利设施'].values.tolist()
+
+words = []
+for i in range(len(sentences)):
+    sentences[i] = sentences[i].split()
+    words += sentences[i]
+
+words = list(set(words))
+
+model = Word2Vec(sentences, size=emb_size, window=3,
+                 min_count=1, sg=0, hs=1, seed=2021)
+
+emb_matrix_mean = []
+emb_matrix_max = []
+
+for seq in sentences:
+    vec = []
+    for w in seq:
+        if w in model:
+            vec.append(model[w])
+    if len(vec) > 0:
+        emb_matrix_mean.append(np.mean(vec, axis=0))
+        emb_matrix_max.append(np.max(vec, axis=0))
+    else:
+        emb_matrix_mean.append([0] * emb_size)
+        emb_matrix_max.append([0] * emb_size)
+
+df_emb_mean = pd.DataFrame(emb_matrix_mean)
+df_emb_mean.columns = ['便利设施_w2v_mean_{}'.format(
+    i) for i in range(emb_size)]
+
+df_emb_max = pd.DataFrame(emb_matrix_max)
+df_emb_max.columns = ['便利设施_w2v_max_{}'.format(
+    i) for i in range(emb_size)]
+
+for i in range(emb_size):
+    df_features[f'便利设施_w2v_mean_{i}'] = df_emb_mean[f'便利设施_w2v_mean_{i}']
+    df_features[f'便利设施_w2v_max_{i}'] = df_emb_max[f'便利设施_w2v_max_{i}']
+
+df_features.head()
 ```
