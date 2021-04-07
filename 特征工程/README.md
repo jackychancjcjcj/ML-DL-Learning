@@ -6,6 +6,7 @@
 * [二度基本交叉特征](#4)
 * [组合特征](#5)
 * [偏离值特征](#6)
+* [频率特征](#7)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -92,3 +93,10 @@ for group in tqdm(cate_cols):
         df['{}-max_gb_{}'.format(feature, group)] = df[feature] - tmp['max']
         df['{}/sum_gb_{}'.format(feature, group)] = df[feature] / tmp['sum']
 ```
+## <span id='7'>频率特征</span>
+```python
+for f in cols:
+    vc = df[f].value_counts(dropna=True,normalize=True).to_dict()
+    df[f'{col}_freq'] = df[col].map(vc)
+```
+    
