@@ -40,7 +40,7 @@ for seed in seeds:
             early_stopping_rounds=200,
             verbose=200
         )
-        oof[val_idx] = clf.predict_proba(val_x)[:, 1]
+        oof[val_idx] += clf.predict_proba(val_x)[:, 1]
         train_df['prob'] += clf.predict_proba(train_df[cols])[:, 1] / skf.n_splits / len(seeds)
         test_df['prob'] += clf.predict_proba(test_df[cols])[:, 1] / skf.n_splits / len(seeds)
         df_importance = pd.DataFrame({
