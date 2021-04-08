@@ -17,5 +17,13 @@
 基本步骤:  
 统计每个样本每个预测结果(常见于分类问题)出现的次数;  
 将每个样本出现的次数最多的那一个(众数)作为我们最终的集成结果.   
+## <span id='1.2'>1.2算术平均数集成(Arithmetic mean based ensemble)</span>
+```python
+sub['final_result'] = (sub['result_1'] + sub['result_2'] + sub['result_3'])/3
+```
+## <span id='1.3'>1.3几何平均数集成(Geometric mean based ensemble)</span>
+```python
+sub['final_result'] = (sub['result_1'] * sub['result_2'] * sub['result_3'])**(1/3)
+```
 ## <span id='2'>2.Stacking/Blending/Bagging</span>
 [Stacking](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/Stacking)
