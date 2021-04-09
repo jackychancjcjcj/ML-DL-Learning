@@ -111,6 +111,7 @@ for f in cols:
 ```
 ## <span id='8'>目标编码</span>
 ```python
+import gc
 def stat(df, df_merge, group_by, agg):
     group = df.groupby(group_by).agg(agg)
 
@@ -135,8 +136,7 @@ def statis_feat(df_know, df_unknow):
 
 
 # 5折交叉
-df_train = df_features[~df_features['价格'].isnull()]
-df_train = df_train.reset_index(drop=True)
+df_train = df_features[~df_features['价格'].isnull()].reset_index(drop=True)
 df_test = df_features[df_features['价格'].isnull()]
 
 df_stas_feat = None
