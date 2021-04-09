@@ -107,7 +107,7 @@ for group in tqdm(cate_cols):
 ```python
 for f in cols:
     vc = df[f].value_counts(dropna=True,normalize=True).to_dict()
-    df[f'{col}_freq'] = df[col].map(vc)
+    df[f'{f}_freq'] = df[f].map(vc)
 ```
 ## <span id='8'>目标编码</span>
 ```python
