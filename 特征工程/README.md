@@ -249,7 +249,7 @@ for c in cat_cols:
 
     # fit encoder
     be = BetaEncoder(c)
-    be.fit(train, 'deal_probability')
+    be.fit(train, 'y')
 
     # mean
     feature_name = f'{c}_mean'
