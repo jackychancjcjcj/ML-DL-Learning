@@ -290,6 +290,8 @@ for c in cat_cols:
 
 ## <span id='9'>TF-IDF编码</span>
 ```python
+from sklearn.decomposition import TruncatedSVD
+from sklearn.feature_extraction.text import TfidfVectorizer
 df_features['便利设施'] = df_features['便利设施'].apply(
     lambda x: x.replace('{', '').replace('}', '').replace('"', '').replace(':', '').replace(',', ' '))
 # df_features['便利设施'] = df_features['便利设施'].str.lower()
