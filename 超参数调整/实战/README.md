@@ -19,14 +19,16 @@ from hyperopt import fmin, tpe, hp, partial
 from hyperopt import fmin, tpe, hp, partial
 lambda_l1_list = [1e-5,1e-3,1e-1,0.0,0.1,0.3,0.5,0.7,0.9,1.0]
 lambda_l2_list = [1e-5,1e-3,1e-1,0.0,0.1,0.3,0.5,0.7,0.9,1.0]
+feature_fraction_list = [0.5,0.6,0.7,0.8,0.9,1.0]
+bagging_fraction_list = [0.5,0.6,0.7,0.8,0.9,1.0]
 # 自定义hyperopt的参数空间
 space = {"max_depth": hp.randint("max_depth", 15),
          "num_trees": hp.randint("num_trees", 300),
          "learning_rate": hp.uniform('learning_rate', 1e-3, 5e-1),
          "min_data_in_leaf": hp.randint("min_data_in_leaf", 100),
-         "feature_fraction": hp.randint("feature_fraction", 5),
-         "bagging_fraction": hp.randint("bagging_fraction", 5),
-         "num_leaves": hp.randint("num_leaves", 30),
+         "feature_fraction": hp.choice('feature_fraction',feature_fraction_list),
+         "bagging_fraction": hp.choice('bagging_fraction',bagging_fraction_list),
+         #"num_leaves": hp.randint("num_leaves", 30),
          "lambda_l1": hp.choice('lambda_l1',lambda_l1_list),
          "lambda_l2": hp.choice('lambda_l2',lambda_l2_list),
          }
@@ -35,9 +37,9 @@ def argsDict_tranform(argsDict, isPrint=False):
     argsDict["max_depth"] = argsDict["max_depth"] + 2
     argsDict['num_trees'] = argsDict['num_trees'] + 150
     argsDict["learning_rate"] = argsDict["learning_rate"]* 0.02 + 0.05
-    argsDict["feature_fraction"] = argsDict["feature_fraction"] * 0.1 + 0.5
-    argsDict["bagging_fraction"] = argsDict["bagging_fraction"] * 0.1 + 0.5
-    argsDict["num_leaves"] = argsDict["num_leaves"]*3 + 10
+    #argsDict["feature_fraction"] = argsDict["feature_fraction"] * 0.1 + 0.5
+    #argsDict["bagging_fraction"] = argsDict["bagging_fraction"] * 0.1 + 0.5
+    #argsDict["num_leaves"] = argsDict["num_leaves"]*3 + 10
     if isPrint:
         print(argsDict)
     else:
@@ -103,6 +105,8 @@ print()
 print('rmse of the best lightgbm:', np.sqrt(RMSE))
 best_params['lambda_l1'] = lambda_l1_list[int(best_params['lambda_l1'])]
 best_params['lambda_l2'] = lambda_l2_list[int(best_params['lambda_l2'])]
+best_params['feature_fraction'] = feature_fraction_list[int(best_params['feature_fraction'])]
+best_params['bagging_fraction'] = bagging_fraction_list[int(best_params['bagging_fraction'])]
 ```
 
 ## XGB调参
