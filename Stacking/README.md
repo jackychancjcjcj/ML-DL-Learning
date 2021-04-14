@@ -1,35 +1,37 @@
 # 祖传参数
 catboost回归：
 ```python
-model = CatBoostRegressor(
-    iterations=50000, 
-    learning_rate=0.01,
-    depth=6, 
-    l2_leaf_reg=3,
-    loss_function='RMSE',
-    eval_metric='MAE',
-    #bagging_temperature = 0.2,
-    #use_best_model=True,
-    logging_level='Verbose',
-    od_type="Iter",
-    early_stopping_rounds=300,
-    random_seed=2021)
+params = {
+    'iterations':50000, 
+    'learning_rate':0.01,
+    'depth':6, 
+    'l2_leaf_reg':3,
+    'loss_function':'RMSE',
+    'eval_metric':'MAE',
+    #'bagging_temperature' : 0.2,
+    #'use_best_model':True,
+    'logging_level':'Verbose',
+    'od_type':"Iter",
+    'early_stopping_rounds':300,
+    'random_seed':2021
+    }
 ```
 catboost分类：
 ```python
-model = CatBoostClassifier(
-    iterations=50000, 
-    learning_rate=0.01,
-    depth=6, 
-    l2_leaf_reg=3,
-    loss_function='logloss',
-    eval_metric='AUC',
-    #bagging_temperature = 0.2,
-    #use_best_model=True,
-    logging_level='Verbose',
-    od_type="Iter",
-    early_stopping_rounds=300,
-    random_seed=2021)
+params = {
+    'iterations':50000, 
+    'learning_rate':0.01,
+    'depth':6, 
+    'l2_leaf_reg':3,
+    'loss_function':'logloss',
+    'eval_metric':'AUC',
+    #'bagging_temperature' : 0.2,
+    #'use_best_model':True,
+    'logging_level':'Verbose',
+    'od_type':"Iter",
+    'early_stopping_rounds':300,
+    'random_seed':2021
+    }
 ```
 # 标准化代码
 ```python
