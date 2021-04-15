@@ -242,58 +242,50 @@ class BetaEncoder(object):
 ```
 ```python
 N_min = 1000
-feature_cols = []
-
-df_train = df_features[~df_features['价格'].isnull()].reset_index(drop=True)
-df_test = df_features[df_features['价格'].isnull()]
+feature_cols = []    
 
 # encode variables
 for c in cat_cols:
+
+    # fit encoder
     be = BetaEncoder(c)
-    kf = KFold(n_splits=5, random_state=2021, shuffle=True)
-    tmp = [f'{c}_mean',f'{c}_mode',f'{c}_median',f'{c}_var',f'{c}_skewness',f'{c}_kurtosis']
-    df_train[tmp] = 0
-    df_test[tmp] = 0
+    be.fit(train, 'deal_probability')
+
+    # mean
+    feature_name = f'{c}_mean'
+    train[feature_name] = be.transform(train, 'mean', N_min)
+    test[feature_name]  = be.transform(test,  'mean', N_min)
+    feature_cols.append(feature_name)
+
+    # mode
+    feature_name = f'{c}_mode'
+    train[feature_name] = be.transform(train, 'mode', N_min)
+    test[feature_name]  = be.transform(test,  'mode', N_min)
+    feature_cols.append(feature_name)
     
-    for train_index, val_index in kf.split(df_train):        
-        # fit encoder
-        be.fit(df_train.iloc[train_index], 'y')
+    # median
+    feature_name = f'{c}_median'
+    train[feature_name] = be.transform(train, 'median', N_min)
+    test[feature_name]  = be.transform(test,  'median', N_min)
+    feature_cols.append(feature_name)    
 
-        # mean
-        feature_name = f'{c}_mean'
-        df_train[feature_name].iloc[val_index] = be.transform(train.iloc[val_index], 'mean', N_min)
-        df_test[feature_name]  += be.transform(test,  'mean', N_min) / 5
-        feature_cols.append(feature_name)
-
-        # mode
-        feature_name = f'{c}_mode'
-        df_train[feature_name].iloc[val_index] = be.transform(train.iloc[val_index], 'mode', N_min)
-        df_test[feature_name]  = be.transform(test,  'mode', N_min) / 5
-        feature_cols.append(feature_name)
-
-        # median
-        feature_name = f'{c}_median'
-        df_train[feature_name].iloc[val_index] = be.transform(train.iloc[val_index], 'median', N_min)
-        df_test[feature_name]  = be.transform(test,  'median', N_min) / 5
-        feature_cols.append(feature_name)    
-
-        # var
-        feature_name = f'{c}_var'
-        df_train[feature_name].iloc[val_index] = be.transform(train.iloc[val_index], 'var', N_min)
-        df_test[feature_name]  = be.transform(test,  'var', N_min) / 5
-        feature_cols.append(feature_name)        
-
-        # skewness
-        feature_name = f'{c}_skewness'
-        df_train[feature_name].iloc[val_index] = be.transform(train.iloc[val_index], 'skewness', N_min)
-        df_test[feature_name]  = be.transform(test,  'skewness', N_min) / 5
-        feature_cols.append(feature_name)    
-
-        # kurtosis
-        feature_name = f'{c}_kurtosis'
-        df_train[feature_name].iloc[val_index] = be.transform(train.iloc[val_index], 'kurtosis', N_min)
-        df_test[feature_name]  = be.transform(test,  'kurtosis', N_min) / 5
-        feature_cols.append(feature_name)  
+    # var
+    feature_name = f'{c}_var'
+    train[feature_name] = be.transform(train, 'var', N_min)
+    test[feature_name]  = be.transform(test,  'var', N_min)
+    feature_cols.append(feature_name)        
+    
+    # skewness
+    feature_name = f'{c}_skewness'
+    train[feature_name] = be.transform(train, 'skewness', N_min)
+    test[feature_name]  = be.transform(test,  'skewness', N_min)
+    feature_cols.append(feature_name)    
+    
+    # kurtosis
+    feature_name = f'{c}_kurtosis'
+    train[feature_name] = be.transform(train, 'kurtosis', N_min)
+    test[feature_name]  = be.transform(test,  'kurtosis', N_min)
+    feature_cols.append(feature_name)  
 ```
 
 ## <span id='9'>TF-IDF编码</span>
