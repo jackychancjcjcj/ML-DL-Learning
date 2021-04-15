@@ -330,7 +330,7 @@ for i in range(len(sentences)):
 
 words = list(set(words))
 
-model = Word2Vec(sentences, size=emb_size, window=3,
+model = word2vec.Word2Vec(sentences, size=emb_size, window=3,
                  min_count=1, sg=0, hs=1, seed=2021)
 
 emb_matrix_mean = []
