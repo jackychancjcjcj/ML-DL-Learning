@@ -138,7 +138,7 @@ def statis_feat(df_know, df_unknow):
 
 # 5折交叉
 df_train = df_features[~df_features['价格'].isnull()].reset_index(drop=True)
-df_test = df_features[df_features['价格'].isnull()]
+df_test = df_features[df_features['价格'].isnull()].reset_index(drop=True)
 
 df_stas_feat = None
 kf = KFold(n_splits=5, random_state=2021, shuffle=True)
