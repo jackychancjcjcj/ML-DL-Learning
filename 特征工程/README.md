@@ -25,6 +25,17 @@ for fea in tqdm(amount_feas, desc="分箱特征"):
     df['{}_bin1'.format(fea)] = np.floor_divide(df[fea], 1000)
     ## 通过对数函数映射到指数宽度分箱
     df['{}_bin2'.format(fea)] = np.floor(np.log10(df[fea]))
+    
+
+# ===================== amount_feas 分箱特征 ===============
+for fea in tqdm(['民宿评分'], desc="分箱特征"):
+    ## qcut分箱，按数据量分箱
+    qcut_labels = [1,2,3,4,5]
+    df['{}_qcut'.format(fea)] = pd.qcut(df[fea].rank(method='first'),q=[0,.2,.4,.6,.8,1],labels=qcut_labels)
+    ## cut分箱，按数字边界分箱
+    cut_labels = [1,2,3,4]
+    cut_bins = [0,60,80,90,100]
+    df['{}_cut'.format(fea)] = pd.cut(df[fea],bins=cut_bins,labels=cut_labels)
 ```
 ## <span id='2'>基本聚合特征</span>
 ```python
