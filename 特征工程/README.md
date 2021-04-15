@@ -319,6 +319,7 @@ for i in range(n_components):
 ```
 ## <span id='10'>W2V编码</span>
 ```python
+from gensim.models import word2vec
 emb_size = 4
 sentences = df_features['便利设施'].values.tolist()
 
