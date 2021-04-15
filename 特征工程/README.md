@@ -48,6 +48,8 @@ for f in tqdm(amount_feas, desc="amount_feas 基本聚合特征"):
             df['{}_{}_max'.format(cate, f)] = df.groupby(cate)[f].transform('max')
             df['{}_{}_min'.format(cate, f)] = df.groupby(cate)[f].transform('min')
             df['{}_{}_std'.format(cate, f)] = df.groupby(cate)[f].transform('std')
+            df['{}_{}_var'.format(cate, f)] = df.groupby(cate)[f].transform('var')
+            df['{}_{}_mode'.format(cate, f)] = df.groupby(cate)[f].transform('mode')
 ```
 ## <span id='3'>一度基本交叉特征</span>
 ```python
