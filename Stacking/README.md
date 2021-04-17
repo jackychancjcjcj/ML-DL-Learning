@@ -103,7 +103,6 @@ def stacking(model_name,model,skf,train_df,test_df):
                     early_stopping_rounds=200,
                     verbose=200
                 )
-            train_df['prob_{}'.format(model_name)] += model.predict_proba(train_df[cols])[:, 1] / skf.n_splits
             test_df['prob_{}'.format(model_name)] += model.predict_proba(test_df[cols])[:, 1] / skf.n_splits
             oof[val_idx] = model.predict_proba(val_x)[:, 1]
         elif model_name == 'llf':
