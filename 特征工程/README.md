@@ -17,6 +17,7 @@
 * [W2V编码](#10)
 * [经纬度特征1](https://mp.weixin.qq.com/s?__biz=Mzk0NDE5Nzg1Ng==&mid=2247490133&idx=1&sn=036127fcb121257ec9c57c47b55503bc&source=41#wechat_redirect)
 * [经纬度特征2](https://mp.weixin.qq.com/s?__biz=Mzk0NDE5Nzg1Ng==&mid=2247490131&idx=1&sn=ecbff9ecf4692e7af97b30fe1f431e2f&source=41#wechat_redirect)
+* [熵](#11)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -366,4 +367,12 @@ for i in range(emb_size):
     df_features[f'便利设施_w2v_max_{i}'] = df_emb_max[f'便利设施_w2v_max_{i}']
 
 df_features.head()
+```
+## <span id='11'>熵</span>
+```python
+from scipy.stats import entropy
+df = df.merge(df.groupby(cate_feature, as_index=False)[value].agg({
+            '{}_{}_nunique'.format(cate_feature, value): 'nunique',
+            '{}_{}_ent'.format(cate_feature, value): lambda x: entropy(x.value_counts() / x.shape[0])
+        }), on=cate_feature, how='left')
 ```
