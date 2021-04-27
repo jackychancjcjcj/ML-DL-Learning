@@ -77,7 +77,7 @@ for f1 in tqdm(agg_feas1, desc="amount_feas 二度基本交叉特征"):
     for f2 in amount_feas:
         df[f1 + '_add_' + f2] = df[f1] + df[f2]
         df[f1 + '_diff_' + f2] = df[f1] - df[f2]
-        df[f1 + '_div_' + f2] = df[f1] / df[f2]
+        df[f1 + '_div_' + f2] = df[f1] / (df[f2]+1e-3)
         df[f1 + '_multi_' + f2] = df[f1] * df[f2]
         agg_feats2.append(f1 + '_add_' + f2)
         agg_feats2.append(f1 + '_diff_' + f2)
