@@ -26,7 +26,7 @@ params = {
     'depth':6, 
     'l2_leaf_reg':3,
     'subsample':0.8,
-    'loss_function':'logloss',
+    'loss_function':'Logloss',
     'eval_metric':'AUC',
     'cat_features':cat_features,
     #'bagging_temperature' : 0.2,
