@@ -92,7 +92,8 @@ cate_cols = ['GRZHZT','DWSSHY','DWJJLX','ZHIYE', 'ZHICHEN','XUELI','ZHIWU','HYZK
 num_cols = ['GRJCJS', 'GRZHYE', 'GRZHSNJZYE', 'GRZHDNGJYE', 'GRYJCE', 'DWYJCE','DKFFE', 'DKYE', 'DKLL']
 
 for f in tqdm(cate_cols):
-    df[f] = df[f].map(dict(zip(df[f].unique(), range(df[f].nunique()))))
+    #df[f] = df[f].map(dict(zip(df[f].unique(), range(df[f].nunique()))))
+    df[f] = df[f].map(df[f].value_counts())
     df[f + '_count'] = df[f].map(df[f].value_counts())
     df = pd.concat([df,pd.get_dummies(df[f],prefix=f"{f}")],axis=1)
 
