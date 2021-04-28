@@ -18,6 +18,7 @@
 * [经纬度特征1](https://mp.weixin.qq.com/s?__biz=Mzk0NDE5Nzg1Ng==&mid=2247490133&idx=1&sn=036127fcb121257ec9c57c47b55503bc&source=41#wechat_redirect)
 * [经纬度特征2](https://mp.weixin.qq.com/s?__biz=Mzk0NDE5Nzg1Ng==&mid=2247490131&idx=1&sn=ecbff9ecf4692e7af97b30fe1f431e2f&source=41#wechat_redirect)
 * [熵+nunique值](#11)
+* [对匿名特征暴力统计特征](#12)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -375,4 +376,59 @@ df = df.merge(df.groupby(cate_feature, as_index=False)[value].agg({
             '{}_{}_nunique'.format(cate_feature, value): 'nunique',
             '{}_{}_ent'.format(cate_feature, value): lambda x: entropy(x.value_counts() / x.shape[0])
         }), on=cate_feature, how='left')
+```
+## <span id='12'>对匿名特征暴力统计特征</span>
+```python
+#求熵
+def myEntro(x):
+    """
+        calculate shanno ent of x
+    """
+    x = np.array(x)
+    x_value_list = set([x[i] for i in range(x.shape[0])])
+    ent = 0.0
+    for x_value in x_value_list:
+        p = float(x[x == x_value].shape[0]) / x.shape[0]
+        logp = np.log2(p)
+        ent -= p * logp
+    #     print(x_value,p,logp)
+    # print(ent)
+    return ent
+
+#求均方根
+def myRms(records):
+    records = list(records)
+    """
+    均方根值 反映的是有效值而不是平均值
+    """
+    return np.math.sqrt(sum([x ** 2 for x in records]) / len(records))
+
+#求取众数
+def myMode(x):
+    return np.mean(pd.Series.mode(x))
+    
+#分别求取10，25，75，90分位值
+def myQ25(x):
+    return x.quantile(0.25)
+    
+def myQ75(x):
+    return x.quantile(0.75)
+
+def myQ10(x):
+    return x.quantile(0.25)
+    
+def myQ90(x):
+    return x.quantile(0.75)
+    
+#求值的范围
+def myRange(x):
+    return pd.Series.max(x) - pd.Series.min(x)
+
+n_feat = ['n0', 'n1', 'n2', 'n4', 'n5', 'n6', 'n7', 'n8', 'n9', 'n10', 'n11', 'n12', 'n13', 'n14', ]
+nameList = ['min', 'max', 'sum', 'mean', 'median', 'skew', 'std', 'mode', 'range', 'Q25','Q75']
+statList = ['min', 'max', 'sum', 'mean', 'median', 'skew', 'std', myMode, myRange, myQ25, myQ75]
+
+for i in range(len(nameList)):
+    df['n_feat_{}'.format(nameList[i])] = df[n_feat].agg(statList[i], axis=1)
+print('n特征处理后：', data.shape)
 ```
