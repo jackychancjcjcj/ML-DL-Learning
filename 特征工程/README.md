@@ -19,6 +19,7 @@
 * [经纬度特征2](https://mp.weixin.qq.com/s?__biz=Mzk0NDE5Nzg1Ng==&mid=2247490131&idx=1&sn=ecbff9ecf4692e7af97b30fe1f431e2f&source=41#wechat_redirect)
 * [熵+nunique值](#11)
 * [对匿名特征暴力统计特征](#12)
+* [woe编码](#13)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -432,4 +433,54 @@ statList = ['min', 'max', 'sum', 'mean', 'median', 'skew', 'std', myMode, myRang
 for i in range(len(nameList)):
     df['n_feat_{}'.format(nameList[i])] = df[n_feat].agg(statList[i], axis=1)
 print('n特征处理后：', data.shape)
+```
+## <span id='13'>woe编码</span>
+```python
+def CalWOE(df, fea, label):
+    eps = 0.000001
+    gbi = pd.crosstab(df[fea], df[label]) + eps
+    gb = df[label].value_counts() + eps
+    gbri = gbi / gb
+    gbri['woe'] = np.log(gbri[1] / gbri[0])
+
+    return gbri['woe']
+
+#woe编码
+def woe_feature(train, test, feats, k):
+    folds = StratifiedKFold(n_splits=k, shuffle=True, random_state=2020)  # 这里最好和后面模型的K折交叉验证保持一致
+
+    train['fold'] = None
+    for fold_, (trn_idx, val_idx) in enumerate(folds.split(train, train['label'])):
+        train.loc[val_idx, 'fold'] = fold_
+
+    kfold_features = []
+    for feat in feats:
+        nums_columns = ['label']
+        for f in nums_columns:
+            colname = feat + '_' + f + '_woe'
+            kfold_features.append(colname)
+            train[colname] = None
+            for fold_, (trn_idx, val_idx) in enumerate(folds.split(train, train['label'])):
+                tmp_trn = train.iloc[trn_idx]
+                #order_label = tmp_trn.groupby([feat])[f].mean()
+                order_label = CalWOE(tmp_trn, feat, f)
+                tmp = train.loc[train.fold == fold_, [feat]]
+                train.loc[train.fold == fold_, colname] = tmp[feat].map(order_label)
+                # fillna
+                global_mean = order_label.mean()
+                train.loc[train.fold == fold_, colname] = train.loc[train.fold == fold_, colname].fillna(global_mean)
+            train[colname] = train[colname].astype(float)
+
+        for f in nums_columns:
+            colname = feat + '_' + f + '_woe'
+            test[colname] = None
+            #order_label = train.groupby([feat])[f].mean()
+            order_label = CalWOE(train, feat, f)
+            test[colname] = test[feat].map(order_label)
+            # fillna
+            global_mean = order_label.mean()
+            test[colname] = test[colname].fillna(global_mean)
+            test[colname] = test[colname].astype(float)
+    del train['fold']
+    return train, test
 ```
