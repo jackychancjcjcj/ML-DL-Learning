@@ -20,6 +20,7 @@
 * [熵+nunique值](#11)
 * [对匿名特征暴力统计特征](#12)
 * [woe编码](#13)
+* [加窗口的聚合特征](#14)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -488,4 +489,24 @@ def woe_feature(train, test, feats, k):
             test[colname] = test[colname].astype(float)
     del train['fold']
     return train, test
+```
+## <span id='14'>加窗口的聚合特征</span>
+```python
+group_df = df[df['days_diff']>window].groupby('user')['amount'].agg({
+    'user_amount_mean_{}d'.format(window): 'mean',
+    'user_amount_std_{}d'.format(window): 'std',
+    'user_amount_max_{}d'.format(window): 'max',
+    'user_amount_min_{}d'.format(window): 'min',
+    'user_amount_sum_{}d'.format(window): 'sum',
+    'user_amount_med_{}d'.format(window): 'median',
+    'user_amount_cnt_{}d'.format(window): 'count',
+    # 'user_amount_q1_{}d'.format(window): lambda x: x.quantile(0.25),
+    # 'user_amount_q3_{}d'.format(window): lambda x: x.quantile(0.75),
+    # 'user_amount_qsub_{}d'.format(window): lambda x: x.quantile(0.75) - x.quantile(0.25),
+    # 'user_amount_skew_{}d'.format(window): 'skew',
+    # 'user_amount_q4_{}d'.format(window): lambda x: x.quantile(0.8),
+    # 'user_amount_q5_{}d'.format(window): lambda x: x.quantile(0.3),
+    # 'user_amount_q6_{}d'.format(window): lambda x: x.quantile(0.7),
+    }).reset_index()
+df = df.merge(group_df, on=['user'], how='left')
 ```
