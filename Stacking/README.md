@@ -41,6 +41,22 @@ params = {
     'random_seed':2021
     }
 ```
+xgb分类:
+```python
+params = {
+    'booster': 'gbtree',
+    'objective': 'binary:logistic',
+    'eval_metric': 'auc',
+    'min_child_weight': 5,
+    'max_depth': 8,
+    'subsample': 0.8,
+    'colsample_bytree': 0.8,
+    'eta': lr,
+    'seed': 2020,
+    # 'tree_method':'gpu_hist',
+    'tree_method': 'hist',
+}
+```
 # 标准化代码
 ```python
 import xgboost as xgb
