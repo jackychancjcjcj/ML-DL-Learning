@@ -51,8 +51,8 @@ params = {
     'max_depth': 8,
     'subsample': 0.8,
     'colsample_bytree': 0.8,
-    'eta': lr,
-    'seed': 2020,
+    'eta': 0.01,
+    'seed': 2021,
     # 'tree_method':'gpu_hist',
     'tree_method': 'hist',
 }
