@@ -436,9 +436,9 @@ n_feat = ['n0', 'n1', 'n2', 'n4', 'n5', 'n6', 'n7', 'n8', 'n9', 'n10', 'n11', 'n
 nameList = ['min', 'max', 'sum', 'mean', 'median', 'skew', 'std', 'mode', 'range', 'Q25','Q75']
 statList = ['min', 'max', 'sum', 'mean', 'median', 'skew', 'std', myMode, myRange, myQ25, myQ75]
 
-for i in range(len(nameList)):
+for i in tqdm(range(len(nameList))):
     df['n_feat_{}'.format(nameList[i])] = df[n_feat].agg(statList[i], axis=1)
-print('n特征处理后：', data.shape)
+print('n特征处理后：', dfshape)
 ```
 ## <span id='13'>woe编码</span>
 ```python
