@@ -25,6 +25,9 @@ sub['final_result'] = (sub['result_1'] + sub['result_2'] + sub['result_3'])/3
 ## <span id='1.3'>1.3几何平均数集成(Geometric mean based ensemble)</span>
 ```python
 sub['final_result'] = (sub['result_1'] * sub['result_2'] * sub['result_3'])**(1/3)
+#or
+a = 0.8
+sub['final_result'] = (sub['result_1']**a) * (sub['result_2']**(1-a))
 ```
 ## <span id='1.7'>1.7排序平均(rank averaging)</span>
 ```python
