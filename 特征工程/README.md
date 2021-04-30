@@ -432,13 +432,13 @@ def myQ90(x):
 def myRange(x):
     return pd.Series.max(x) - pd.Series.min(x)
 
-n_feat = ['n0', 'n1', 'n2', 'n4', 'n5', 'n6', 'n7', 'n8', 'n9', 'n10', 'n11', 'n12', 'n13', 'n14', ]
+n_feat = ['n0', 'n1', 'n2', 'n4', 'n5', 'n6', 'n7', 'n8', 'n9', 'n10', 'n11', 'n12', 'n13', 'n14']
 nameList = ['min', 'max', 'sum', 'mean', 'median', 'skew', 'std', 'mode', 'range', 'Q25','Q75']
 statList = ['min', 'max', 'sum', 'mean', 'median', 'skew', 'std', myMode, myRange, myQ25, myQ75]
 
 for i in tqdm(range(len(nameList))):
     df['n_feat_{}'.format(nameList[i])] = df[n_feat].agg(statList[i], axis=1)
-print('n特征处理后：', dfshape)
+print('n特征处理后：', df.shape)
 ```
 ## <span id='13'>woe编码</span>
 ```python
