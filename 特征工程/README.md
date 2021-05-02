@@ -23,6 +23,7 @@
 * [加窗口的聚合特征](#14)
 * [普通统计特征](#15)
 * [catboost类别编码](#16)
+* [条件特征](#17)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -579,4 +580,19 @@ def cat_encoding(train, test, k ,feature):
         #del train[feat]
     del train['fold']
     return train, test
+```
+## <span id='17'>条件特征</span>
+```python
+    for wd in range(7):
+        data_tmp = trans[trans['week'] == wd].groupby('user')['days_diff'].count().reset_index()
+        data_tmp = pd.DataFrame(data_tmp)
+        data_tmp.columns = ['user', 'trans_user_week_{}_cnt'.format(wd)]
+        df = df.merge(data_tmp, on=['user'], how='left')
+
+    time_period = [-1, 8, 12, 15, 23]
+    for tp in range(4):
+        data_tmp = pd.DataFrame(trans[((trans['hour'] > time_period[tp]) & (trans['hour'] < time_period[tp + 1]))]. \
+                                groupby('user')['days_diff'].count().reset_index())
+        data_tmp.columns = ['user', 'trans_user_time_period_{}_cnt'.format(tp)]
+        df = df.merge(data_tmp, on=['user'], how='left')
 ```
