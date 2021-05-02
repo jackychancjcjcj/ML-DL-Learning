@@ -16,6 +16,7 @@
 * [模型集成](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90)
 * [特征降维](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E7%89%B9%E5%BE%81%E9%99%8D%E7%BB%B4)
 * [减少内存](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E5%87%8F%E5%B0%91%E5%86%85%E5%AD%98)
+* [数据分析](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90)
 * [特征工程](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B)
 * [模型训练](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83)
 ## 比赛类型
