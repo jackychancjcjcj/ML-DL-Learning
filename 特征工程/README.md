@@ -514,4 +514,13 @@ df = df.merge(group_df, on=['user'], how='left')
 ## <span id='15'>普通统计特征</span>
 ```python
 df['nan_num'] = df.isnull().sum(axis=1)
+
+tmp = [['人均床数量','人均卧室量'],['卧室床均量','人均卧室量']]
+for fea in tmp:
+    df[f'{fea[0]}_{fea[1]}_std'] = df[fea].std(1)
+    df[f'{fea[0]}_{fea[1]}_max'] = df[fea].max(1)
+    df[f'{fea[0]}_{fea[1]}_min'] = df[fea].min(1)
+    df[f'{fea[0]}_{fea[1]}_sub'] = df[fea[0]] - df[fea[1]]
+del tmp
+gc.collect()
 ```
