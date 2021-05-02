@@ -22,6 +22,7 @@
 * [woe编码](#13)
 * [加窗口的聚合特征](#14)
 * [普通统计特征](#15)
+* [catboost类别编码](#16)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -523,4 +524,48 @@ for fea in tmp:
     df[f'{fea[0]}_{fea[1]}_sub'] = df[fea[0]] - df[fea[1]]
 del tmp
 gc.collect()
+```
+## <span id='16'>catboost类别编码</span>
+```python
+def cat_encoding(train, test, k ,feature):
+    #feature = [f for f in train.select_dtypes('object').columns if f not in ['user']]
+    folds = StratifiedKFold(n_splits=k, shuffle=True, random_state=2020)  # 这里最好和后面模型的K折交叉验证保持一致
+
+    train['fold'] = None
+    for fold_, (trn_idx, val_idx) in enumerate(folds.split(train, train['label'])):
+        train.loc[val_idx, 'fold'] = fold_
+
+    enc = CatEncode.CatBoostEncoder()
+
+    for feat in feature:
+        nums_columns = ['label']
+        for f in nums_columns:
+            colname = feat + '_' + f + '_cat_enc'
+
+            train[colname] = None
+            for fold_, (trn_idx, val_idx) in enumerate(folds.split(train, train['label'])):
+                tmp_trn = train.iloc[trn_idx]
+                #order_label = tmp_trn.groupby([feat])[f].mean()
+                order_label = enc.fit_transform(tmp_trn[feat], tmp_trn['label']).values.squeeze()
+                enc_dic = dict(zip(tmp_trn[feat], order_label))
+                tmp = train.loc[train.fold == fold_, [feat]]
+                train.loc[train.fold == fold_, colname] = tmp[feat].map(enc_dic)
+                # fillna
+                global_mean = order_label.mean()
+                train.loc[train.fold == fold_, colname] = train.loc[train.fold == fold_, colname].fillna(global_mean)
+            train[colname] = train[colname].astype(float)
+
+        for f in nums_columns:
+            colname = feat + '_' + f + '_cat_enc'
+            test[colname] = None
+            order_label = enc.fit_transform(train[feat], train['label']).values.squeeze()
+            enc_dic = dict(zip(train[feat], order_label))
+            test[colname] = test[feat].map(enc_dic)
+            # fillna
+            global_mean = order_label.mean()
+            test[colname] = test[colname].fillna(global_mean)
+            test[colname] = test[colname].astype(float)
+        #del train[feat]
+    del train['fold']
+    return train, test
 ```
