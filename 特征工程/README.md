@@ -524,6 +524,13 @@ for fea in tmp:
     df[f'{fea[0]}_{fea[1]}_sub'] = df[fea[0]] - df[fea[1]]
 del tmp
 gc.collect()
+
+#计算空值
+df['is_null'] = 0
+df.loc[df[value].isnull(), 'is_null'] = 1
+group_df = df.groupby(['user'])['is_null'].agg({'user_{}_{}_null_cnt'.format(prefix, value): 'sum',
+                                                'user_{}_{}_null_ratio'.format(prefix, value): 'mean'}).reset_index()
+
 ```
 ## <span id='16'>catboost类别编码</span>
 ```python
