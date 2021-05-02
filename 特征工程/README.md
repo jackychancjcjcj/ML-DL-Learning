@@ -21,6 +21,7 @@
 * [对匿名特征暴力统计特征](#12)
 * [woe编码](#13)
 * [加窗口的聚合特征](#14)
+* [普通统计特征](#15)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -509,4 +510,8 @@ group_df = df[df['days_diff']>window].groupby('user')['amount'].agg({
     # 'user_amount_q6_{}d'.format(window): lambda x: x.quantile(0.7),
     }).reset_index()
 df = df.merge(group_df, on=['user'], how='left')
+```
+## <span id='15'>普通统计特征</span>
+```python
+df['nan_num'] = df.isnull().sum(axis=1)
 ```
