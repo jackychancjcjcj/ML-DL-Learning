@@ -100,6 +100,10 @@ for f1 in tqdm(agg_feas1, desc="amount_feas 二度基本交叉特征"):
 cate_cols = ['GRZHZT','DWSSHY','DWJJLX','ZHIYE', 'ZHICHEN','XUELI','ZHIWU','HYZK']
 num_cols = ['GRJCJS', 'GRZHYE', 'GRZHSNJZYE', 'GRZHDNGJYE', 'GRYJCE', 'DWYJCE','DKFFE', 'DKYE', 'DKLL']
 
+#类别特征组合编码
+for f1,f2 in [[]]:
+    df['{}_{}'.format(f1,f2)] = df[f1].map(str) + '_' + df[f2].map(str)
+
 for f in tqdm(cate_cols):
     #df[f] = df[f].map(dict(zip(df[f].unique(), range(df[f].nunique()))))
     df[f+'_count'] = df[f].map(df[f].value_counts())
