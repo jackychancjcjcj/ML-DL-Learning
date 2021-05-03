@@ -25,6 +25,7 @@
 * [普通统计特征](#15)
 * [catboost类别编码](#16)
 * [条件特征](#17)
+* [缺失值组合特征](#19)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -625,4 +626,22 @@ X_svd = svd.fit_transform(X_tfidf)
 
 for i in range(n_components):
     df_features[f'便利设施_countvec_{i}'] = X_svd[:, i]
+```
+## <span id='19'>缺失值组合特征</span>
+```python
+#4， 缺失值统计，统计存在缺失值的特征，构造缺失值相关计数特征
+loss_fea = ['bankCard','residentAddr','highestEdu','linkRela']
+for i in loss_fea:
+    a = data.loc[data[i]==-999]
+    e = a.groupby(['certId'])['id'].count().reset_index(name=i+'_certId_count') 
+    data = data.merge(e,on='certId',how='left')
+    
+    d = a.groupby(['loanProduct'])['id'].count().reset_index(name=i+'_loan_count') 
+    data = data.merge(d,on='loanProduct',how='left')
+    
+    m = a.groupby(['job'])['id'].count().reset_index(name=i+'_job_count') 
+    data = data.merge(m,on='job',how='left')
+    
+    data['certloss_'+i] = data[i+'_certId_count']/data['certId_count']
+    data['jobloss_'+i] = data[i+'_job_count']/data['job_count']
 ```
