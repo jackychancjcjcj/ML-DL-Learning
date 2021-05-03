@@ -15,6 +15,7 @@
 * [目标编码](#8)
 * [TF-IDF编码](#9)
 * [W2V编码](#10)
+* [CountVec编码](#18)
 * [经纬度特征1](https://mp.weixin.qq.com/s?__biz=Mzk0NDE5Nzg1Ng==&mid=2247490133&idx=1&sn=036127fcb121257ec9c57c47b55503bc&source=41#wechat_redirect)
 * [经纬度特征2](https://mp.weixin.qq.com/s?__biz=Mzk0NDE5Nzg1Ng==&mid=2247490131&idx=1&sn=ecbff9ecf4692e7af97b30fe1f431e2f&source=41#wechat_redirect)
 * [熵+nunique值](#11)
@@ -604,4 +605,23 @@ for col in tqdm(['op_type', 'op_mode', 'net_type', 'channel']):
     df_temp.reset_index(inplace=True)
     df_temp.rename({'index': 'user'}, inplace=True, axis=1)
     df_feature = df_feature.merge(df_temp, how='left')
+```
+## <span id='18'>CountVec编码</span>
+```python
+from sklearn.decomposition import TruncatedSVD
+from sklearn.feature_extraction.text import CountVectorizer
+
+df_features['便利设施'] = df_features['便利设施'].apply(
+    lambda x: x.replace('{', '').replace('}', '').replace('"', '').replace(':', '').replace(',', ' '))
+# df_features['便利设施'] = df_features['便利设施'].str.lower()
+df_features['便利设施'] = df_features['便利设施'].apply(lambda x: ','.join(x))
+n_components = 12
+
+env = CountVectorizer()
+X_tfidf = env.fit_transform(df_features['便利设施'])
+svd = TruncatedSVD(n_components= n_components)
+X_svd = svd.fit_transform(X_tfidf)
+
+for i in range(n_components):
+    df_features[f'便利设施_countvec_{i}'] = X_svd[:, i]
 ```
