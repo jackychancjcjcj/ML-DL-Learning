@@ -60,6 +60,7 @@ for f in tqdm(amount_feas, desc="amount_feas 基本聚合特征"):
             df['{}_{}_mode'.format(cate, f)] = df.groupby(cate)[f].transform('mode')
             df['{}_{}_sum'.format(cate, f)] = df.groupby(cate)[f].transform('sum')
             df['{}_{}_skew'.format(cate, f)] = df.groupby(cate)[f].transform('skew')
+            df['{}_{}_rank'.format(cate, f)] = df.groupby(cate)[f].transform('rank')
             df['{}_{}_q1'.format(cate, f)] = df.groupby(cate)[f].transform(lambda x: x.quantile(0.25))
             df['{}_{}_q3'.format(cate, f)] = df.groupby(cate)[f].transform(lambda x: x.quantile(0.75))
             df['{}_{}_qsub'.format(cate, f)] = df.groupby(cate)[f].transform(lambda x: x.quantile(0.75) - x.quantile(0.25))
