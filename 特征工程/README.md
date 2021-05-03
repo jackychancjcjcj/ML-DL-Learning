@@ -583,16 +583,25 @@ def cat_encoding(train, test, k ,feature):
 ```
 ## <span id='17'>条件特征</span>
 ```python
-    for wd in range(7):
-        data_tmp = trans[trans['week'] == wd].groupby('user')['days_diff'].count().reset_index()
-        data_tmp = pd.DataFrame(data_tmp)
-        data_tmp.columns = ['user', 'trans_user_week_{}_cnt'.format(wd)]
-        df = df.merge(data_tmp, on=['user'], how='left')
+for wd in range(7):
+    data_tmp = trans[trans['week'] == wd].groupby('user')['days_diff'].count().reset_index()
+    data_tmp = pd.DataFrame(data_tmp)
+    data_tmp.columns = ['user', 'trans_user_week_{}_cnt'.format(wd)]
+    df = df.merge(data_tmp, on=['user'], how='left')
 
-    time_period = [-1, 8, 12, 15, 23]
-    for tp in range(4):
-        data_tmp = pd.DataFrame(trans[((trans['hour'] > time_period[tp]) & (trans['hour'] < time_period[tp + 1]))]. \
-                                groupby('user')['days_diff'].count().reset_index())
-        data_tmp.columns = ['user', 'trans_user_time_period_{}_cnt'.format(tp)]
-        df = df.merge(data_tmp, on=['user'], how='left')
+time_period = [-1, 8, 12, 15, 23]
+for tp in range(4):
+    data_tmp = pd.DataFrame(trans[((trans['hour'] > time_period[tp]) & (trans['hour'] < time_period[tp + 1]))]. \
+                            groupby('user')['days_diff'].count().reset_index())
+    data_tmp.columns = ['user', 'trans_user_time_period_{}_cnt'.format(tp)]
+    df = df.merge(data_tmp, on=['user'], how='left')
+        
+for col in tqdm(['op_type', 'op_mode', 'net_type', 'channel']):
+    df_temp = df_op[['user', 'hour', col]].copy()
+    df_temp = df_temp.pivot_table(index='user', columns=col,
+                                  values='hour', aggfunc=['mean', 'std', 'max', 'min']).fillna(0)
+    df_temp.columns = ['op_{}_{}_hour_{}'.format(col, f[1], f[0]) for f in df_temp.columns]
+    df_temp.reset_index(inplace=True)
+    df_temp.rename({'index': 'user'}, inplace=True, axis=1)
+    df_feature = df_feature.merge(df_temp, how='left')
 ```
