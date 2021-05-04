@@ -64,7 +64,7 @@ xgb回归:
 params = {
     'booster': 'gbtree',
     'objective': 'reg:squarederror', # reg:squaredlogerror
-    'eval_metric': 'auc',
+    'eval_metric': 'rmse',
     'min_child_weight': 5,
     'max_depth': 8,
     'subsample': 0.8,
