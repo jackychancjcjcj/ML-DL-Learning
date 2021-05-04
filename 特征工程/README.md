@@ -66,6 +66,13 @@ for f in tqdm(amount_feas, desc="amount_feas 基本聚合特征"):
             df['{}_{}_q1'.format(cate, f)] = df.groupby(cate)[f].transform(lambda x: x.quantile(0.25))
             df['{}_{}_q3'.format(cate, f)] = df.groupby(cate)[f].transform(lambda x: x.quantile(0.75))
             df['{}_{}_qsub'.format(cate, f)] = df.groupby(cate)[f].transform(lambda x: x.quantile(0.75) - x.quantile(0.25))
+            
+for f in tqdm(int_feas, desc="amount_feas 基本聚合特征"):
+    for cate in category_fea:
+        if f != cate:
+            df['{}_{}_count'.format(cate, f)] = df.groupby(cate)[f].transform('count')
+            df['{}_{}_nunique'.format(cate, f)] = df.groupby(cate)[f].transform('nunique')
+            df['{}_{}_nunique_count'.format(cate, f)] = df['{}_{}_nunique'.format(cate, f)] / df['{}_{}_count'.format(cate, f)]
 ```
 ## <span id='3'>一度基本交叉特征</span>
 ```python
@@ -110,9 +117,8 @@ for f1,f2 in [[]]:
     df['{}_{}'.format(f1,f2)] = df[f1].map(str) + '_' + df[f2].map(str)
 
 for f in tqdm(cate_cols):
-    #df[f] = df[f].map(dict(zip(df[f].unique(), range(df[f].nunique()))))
+    df[f+'_nunique'] = df[f].map(dict(zip(df[f].unique(), range(df[f].nunique()))))
     df[f+'_count'] = df[f].map(df[f].value_counts())
-    df[f + '_count'] = df[f].map(df[f].value_counts())
     df = pd.concat([df,pd.get_dummies(df[f],prefix=f"{f}")],axis=1)
 
 cate_cols_combine = [[cate_cols[i], cate_cols[j]] for i in range(len(cate_cols)) \
