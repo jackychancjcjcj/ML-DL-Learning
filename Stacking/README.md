@@ -45,7 +45,25 @@ xgb分类:
 ```python
 params = {
     'booster': 'gbtree',
-    'objective': 'binary:logistic',
+    'objective': 'binary:logistic', # rank:pairwise
+    'eval_metric': 'auc',
+    'min_child_weight': 5,
+    'max_depth': 8,
+    'subsample': 0.8,
+    'colsample_bytree': 0.8,
+    'eta': 0.01,
+    'seed': 2021,
+    'lambda':1,
+    'alpha':1,
+    # 'tree_method':'gpu_hist',
+    'tree_method': 'hist',
+}
+```
+xgb回归:
+```python
+params = {
+    'booster': 'gbtree',
+    'objective': 'reg:squarederror', # reg:squaredlogerror
     'eval_metric': 'auc',
     'min_child_weight': 5,
     'max_depth': 8,
