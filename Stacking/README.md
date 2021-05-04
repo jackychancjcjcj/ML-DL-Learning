@@ -53,6 +53,8 @@ params = {
     'colsample_bytree': 0.8,
     'eta': 0.01,
     'seed': 2021,
+    'lambda':1,
+    'alpha':1,
     # 'tree_method':'gpu_hist',
     'tree_method': 'hist',
 }
