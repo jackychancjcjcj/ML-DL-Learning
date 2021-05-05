@@ -1,4 +1,14 @@
 ## 标准代码
+TIPS:  
+1.LGB可以自己处理na，但我们也可以先处理na再给lgb  
+2.lgb可以处理categorical_features,做法：
+```python
+for i in cate_feat:
+        data_df[i] = data_df[i].astype('category')
+params = {
+    'categorical_feature':cate_feat
+}
+```
 lgb：
 ```python
 from lightgbm.sklearn import LGBMClassifier
