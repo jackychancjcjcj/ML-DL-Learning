@@ -26,6 +26,7 @@
 * [catboost类别编码](#16)
 * [条件特征](#17)
 * [缺失值组合特征](#19)
+* [手动构造行为序列+w2v编码](#20)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -747,4 +748,46 @@ for i in loss_fea:
     
     data['certloss_'+i] = data[i+'_certId_count']/data['certId_count']
     data['jobloss_'+i] = data[i+'_job_count']/data['job_count']
+```
+## <span id='20'>手动构造行为序列+w2v编码</span>
+```python
+def w2v_transform(X,word2vec,length):
+    length = len(base_col[3:])
+    return np.array([np.hstack([
+            np.mean([word2vec[w] 
+                     for w in words if w in word2vec] or
+                    [np.zeros(length)], axis=1)
+        ,   np.max([word2vec[w] 
+                     for w in words if w in word2vec] or
+                    [np.zeros(length)], axis=1)
+                ])   for words in X
+        
+        ])
+
+def get_w2v(data_frame,feat,length):
+    model = Word2Vec(data_frame[feat].values, size=length, window=20, min_count=1,
+                     workers=10, iter=10)
+    return model
+    
+def w2v_feat(data):
+    tr_w2v = get_w2v(data[['rid']],'rid',50)
+    vect = w2v_transform(data.rid.values,tr_w2v.wv,50)
+    for i in range(vect.shape[1]):
+        data['w2vn'+str(i)] = vect[:,i]
+    return data
+
+zx_col = ['x_'+str(i) for i in range(78)] # 需要构建的特征
+tmp = df[zx_col].corr()
+drop_col = []
+base_col = []
+for i in zx_col:
+    base_col.append(i)
+    tmp1 = tmp[i]
+    tmp2 = tmp1[tmp1==1].index.tolist()
+    tmp2 = [n for n in tmp2 if n not in base_col]
+    drop_col.extend(tmp2)
+drop_col = list(set(drop_col))
+zx_col = [i for i in zx_col if i not in drop_col]
+df['rid'] = df.apply(lambda x: [ i+'x'+str(x[i]) for i in zx_col],axis=1) # 行为序列
+df = w2v_feat(df)
 ```
