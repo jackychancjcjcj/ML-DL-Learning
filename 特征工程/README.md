@@ -751,6 +751,7 @@ for i in loss_fea:
 ```
 ## <span id='20'>手动构造行为序列+w2v编码</span>
 ```python
+from gensim.models import Word2Vec
 def w2v_transform(X,word2vec,length):
     length = len(base_col[3:])
     return np.array([np.hstack([
