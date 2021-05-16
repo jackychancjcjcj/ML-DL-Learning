@@ -791,4 +791,6 @@ drop_col = list(set(drop_col))
 zx_col = [i for i in zx_col if i not in drop_col]
 df['rid'] = df.apply(lambda x: [ i+'x'+str(x[i]) for i in zx_col],axis=1) # 行为序列
 df = w2v_feat(df)
+del df['rid']
+gc.collect()
 ```
