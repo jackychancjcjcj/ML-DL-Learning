@@ -27,6 +27,7 @@
 * [条件特征](#17)
 * [缺失值组合特征](#19)
 * [手动构造行为序列+w2v编码](#20)
+* [黄金组合特征](#21)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -793,4 +794,12 @@ df['rid'] = df.apply(lambda x: [ i+'x'+str(x[i]) for i in zx_col],axis=1) # 行�
 df = w2v_feat(df)
 del df['rid']
 gc.collect()
+```
+## <span id='21'>黄金组合特征</span>
+```python
+df['A_B_mean'] = df.groupby('A')['B'].transform('mean')
+df['A_B_median'] = df.groupby('A')['B'].transform('median')
+df['B_div_A_B_mean'] = df['B']/(df['A_B_mean']+1e-5)
+df['B_div_A_B_median'] = df['B']/(df['A_B_median']+1e-5)
+df['B_minus_A_B_mean'] = df['B'] - df['A_B_mean']
 ```
