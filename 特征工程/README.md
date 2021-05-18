@@ -809,4 +809,7 @@ df['B_minus_A_B_mean'] = df['B'] - df['A_B_mean']
 df['skew_A_B_1'] = df['A_B_median'] - df['A_B_mean']
 df['skew_A_B_2'] = df['skew_A_B_1'].map(abs)
 df['skew_A_B_ratio'] = df['A_B_median'] / (df['A_B_mean']+1e-5)
+
+#变异系数
+df['A_B_cv'] =  df['A_B_std'] / (df['A_B_mean']+1e-5)
 ```
