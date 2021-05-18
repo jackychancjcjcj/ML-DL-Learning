@@ -28,6 +28,7 @@
 * [缺失值组合特征](#19)
 * [手动构造行为序列+w2v编码](#20)
 * [黄金组合特征](#21)
+* [数据倾斜](#22)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -802,4 +803,10 @@ df['A_B_median'] = df.groupby('A')['B'].transform('median')
 df['B_div_A_B_mean'] = df['B']/(df['A_B_mean']+1e-5)
 df['B_div_A_B_median'] = df['B']/(df['A_B_median']+1e-5)
 df['B_minus_A_B_mean'] = df['B'] - df['A_B_mean']
+```
+## <span id='22'>数据倾斜</span>
+```python
+df['skew_A_B_1'] = df['A_B_median'] - df['A_B_mean']
+df['skew_A_B_2'] = df['skew_A_B_1'].map(abs)
+df['skew_A_B_ratio'] = df['A_B_median'] / (df['A_B_mean']+1e-5)
 ```
