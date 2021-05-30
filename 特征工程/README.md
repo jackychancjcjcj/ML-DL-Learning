@@ -798,11 +798,13 @@ gc.collect()
 ```
 ## <span id='21'>黄金组合特征</span>
 ```python
-df['A_B_mean'] = df.groupby('A')['B'].transform('mean')
-df['A_B_median'] = df.groupby('A')['B'].transform('median')
-df['B_div_A_B_mean'] = df['B']/(df['A_B_mean']+1e-5)
-df['B_div_A_B_median'] = df['B']/(df['A_B_median']+1e-5)
-df['B_minus_A_B_mean'] = df['B'] - df['A_B_mean']
+for cate in ['民宿周边','邮编']:
+    for f in ['评论间隔_day']:
+        df['{}_{}_mean'.format(cate,f)] = df.groupby(cate)[f].transform('mean')
+        df['{}_{}_median'.format(cate,f)] = df.groupby(cate)[f].transform('median')
+        df['{}_div_{}_{}_mean'.format(f,cate,f)] = df[f]/(df['{}_{}_mean'.format(cate,f)]+1e-5)
+        df['{}_div_{}_{}_median'.format(f,cate,f)] = df[f]/(df['{}_{}_median'.format(cate,f)]+1e-5)
+        df['{}_minus_{}_{}_mean'.format(f,cate,f)] = df[f] - df['{}_{}_mean'.format(cate,f)]
 ```
 ## <span id='22'>数据倾斜</span>
 ```python
