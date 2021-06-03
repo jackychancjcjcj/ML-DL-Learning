@@ -19,6 +19,7 @@
 * [数据分析](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90)
 * [特征工程](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B)
 * [模型训练](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83)
+* [比赛思路](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/%E6%AF%94%E8%B5%9B%E6%80%9D%E8%B7%AF)
 ## 比赛类型
 * [推荐系统解构](https://mp.weixin.qq.com/s/LO9KV7foJyVJRFPjIAT1Ew)
   * [十大序列化推荐算法](https://mp.weixin.qq.com/s/x8G6Hkq_ocdO1efnCOVfHg)
