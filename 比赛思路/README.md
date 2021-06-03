@@ -6,6 +6,8 @@
 
 ## 回归问题
 把预测结果固定一下 下值取=0.025的值，上值取=0.975的值
+```python
 import numpy as np
 low_bound,high_bound = df[target].quantile(0.025),df[target].quantile(0.975)
 np.clip(y_pred,low_bound,high_bound)
+```
