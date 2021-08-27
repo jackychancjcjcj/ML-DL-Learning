@@ -29,6 +29,7 @@
 * [手动构造行为序列+w2v编码](#20)
 * [黄金组合特征](#21)
 * [数据倾斜](#22)
+* [group+svd-用户交互特征](#23)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -815,3 +816,48 @@ df['skew_A_B_ratio'] = df['A_B_median'] / (df['A_B_mean']+1e-5)
 #变异系数
 df['A_B_cv'] =  df['A_B_std'] / (df['A_B_mean']+1e-5)
 ```
+## <span id='23'>group+svd-用户交互特征</span>
+该特征的本质就是希望找到基于视频的用户共现性，如果某些视频某些用户总是一起出现，那么就说明这些用户大概率有相同的爱好，就很可能一起转发，一起评论并且同时关注了。那么怎么构建该类特征使得模型能知道呢？最简单有效的策略就是，直接构建每个视频的用户向量特征，例如下面的TFIDF，通过下面(Code部分)的TFIDF得到
+```python
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer 
+from sklearn.decomposition import TruncatedSVD
+
+def tfidf_svd(data, f1, f2, n_components=100):
+    n_components = 100 
+    tmp     = data.groupby(f1, as_index=False)[f2].agg({'list': lambda x: ' '.join(list(x.astype('str')))})
+    tfidf   = TfidfVectorizer(max_df=0.95, min_df=3, sublinear_tf=True)
+    res     = tfidf.fit_transform(tmp['list']) 
+    print('svd start')
+    svd     = TruncatedSVD(n_components=n_components, random_state=2021)
+    svd_res = svd.fit_transform(res)
+    print('svd finished')
+    for i in (range(n_components)):
+        tmp['{}_{}_tfidf_svd_{}'.format(f1, f2, i)] = svd_res[:, i]
+        tmp['{}_{}_tfidf_svd_{}'.format(f1, f2, i)] = tmp['{}_{}_tfidf_svd_{}'.format(f1, f2, i)].astype(np.float32)
+    del tmp['list']
+    return tmp
+
+def get_first_svd_features(f1_, n_components = 100):  
+    # userid_id_dic : 用户的mapping字典；
+    # first_cls_dic[f1_] : f1的mapping字典； 
+    f1_embedding_userid = pd.DataFrame({f1_:list(first_cls_dic[f1_].values())})
+    f1_embedding_userid_tmp = tfidf_svd(df_train_val[[f1_, 'userid']], f1_, 'userid', n_components)  
+    f1_embedding_userid = f1_embedding_userid.merge(f1_embedding_userid_tmp, on = f1_, how = 'left')
+    f1_embedding_userid = f1_embedding_userid.fillna(0)
+    f1_embedding_userid = f1_embedding_userid[[c for c in f1_embedding_userid.columns if c not in [f1_]]].values
+    np.save(embedding_path + '{}_embedding_userid.npy'.format(f1_),f1_embedding_userid)
+    del f1_embedding_userid,f1_embedding_userid_tmp
+    gc.collect()
+    userid_embedding_f1 = pd.DataFrame({'userid':list(userid_id_dic.values())})
+    userid_embedding_f1_tmp = tfidf_svd(df_train_val[['userid', f1_]], 'userid', f1_, n_components)  
+    userid_embedding_f1 = userid_embedding_f1.merge(userid_embedding_f1_tmp, on = 'userid', how = 'left')
+    userid_embedding_f1 = userid_embedding_f1.fillna(0)
+    userid_embedding_f1 = userid_embedding_f1[[c for c in userid_embedding_f1.columns if c not in ['userid']]].values
+    np.save(embedding_path + 'userid_embedding_{}.npy'.format(f1_),userid_embedding_f1)
+    del userid_embedding_f1,userid_embedding_f1_tmp
+    gc.collect()
+
+get_first_svd_features('feedid')
+get_first_svd_features('authorid')
+```
+
