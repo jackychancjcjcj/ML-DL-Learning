@@ -30,6 +30,7 @@
 * [黄金组合特征](#21)
 * [数据倾斜](#22)
 * [group+svd-用户交互特征](#23)
+* [时间处理](#24)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -860,4 +861,10 @@ def get_first_svd_features(f1_, n_components = 100):
 get_first_svd_features('feedid')
 get_first_svd_features('authorid')
 ```
-
+## <span id='24'>时间处理</span>
+```python
+df['timestamp'] = df['time'].apply(lambda x:time.mktime(time.strptime(x, '%Y-%m-%d %H:%M:%S)))
+data['day'] = data['time'].dt.day
+data['dayofweek'] = data['time'].dt.dayofweek
+data['hour'] = data['time'].dt.hour
+```
