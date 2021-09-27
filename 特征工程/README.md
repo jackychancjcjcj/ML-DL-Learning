@@ -31,6 +31,7 @@
 * [数据倾斜](#22)
 * [group+svd-用户交互特征](#23)
 * [时间处理](#24)
+* [树模型tag_pooling](#25)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -867,4 +868,68 @@ df['timestamp'] = df['time'].apply(lambda x:time.mktime(time.strptime(x, '%Y-%m-
 data['day'] = data['time'].dt.day
 data['dayofweek'] = data['time'].dt.dayofweek
 data['hour'] = data['time'].dt.hour
+```
+## <span id='25'>树模型tag_pooling</span>
+1：tag-pooling-encoder  
+简单的思路就是将tag拆分开，列传行，然后求每个tag的统计特征，然后将tag的相关特征组合(pooling)起来表征一个item的特征。  
+```python
+ action=pd.read_csv(USER_ACTION)[["userid","feedid","date_","play","stay","device","read_comment","like","click_avatar","forward","comment","follow","favorite"]]
+    iteminfo = pd.read_csv(FEED_INFO)
+    test = pd.read_csv(TEST_FILE_A)
+    test["date_"] = 15
+    test2 = pd.read_csv(TEST_FILE_B)
+    test2["date_"] = 15
+    df=pd.concat([action,test,test2]).reset_index(drop=True)
+    del action
+
+    df.loc[df[df['device'] == 1].index, 'read_comment'] = np.nan
+    result = []
+    for t in range(2, 16):
+        action = df[df["date_"] < t][["userid", "feedid", "date_", "play", "stay", "device", "read_comment", "like", "click_avatar", "forward","comment", "follow", "favorite"]]
+        tem = df[df["date_"] == t][["userid", "feedid", "date_"]]
+        for col in ['manual_keyword_list', 'machine_keyword_list', 'manual_tag_list']:
+            print(t, col)
+            temp = iteminfo.set_index(["feedid"])[col].str.split(";", expand=True).stack().reset_index(drop=True,level=-1).reset_index().rename(columns={0: col})
+            tempp = action.merge(temp, on='feedid', how='left')
+            tem_tem = tem[["userid", "feedid", "date_"]].merge(temp, on='feedid', how='left')
+            temp_col = []
+            for i in ["play", "stay", "read_comment", "like", "click_avatar", "forward", "comment", "follow",
+                      "favorite"]:
+                tempp['{}_{}'.format(col, i)] = tempp.groupby(['userid', col])[i].transform("mean")
+                temp_col.append('{}_{}'.format(col, i))
+            tempp = tempp.groupby(['userid', col])[temp_col].mean().reset_index()
+            re = tem_tem.merge(tempp, on=['userid', col], how='left')
+            re = re.groupby(['userid', 'feedid', 'date_'])[temp_col].agg(['mean', "max"]).reset_index()
+            re.columns = [k + t for k, t in re.columns]
+            tem = tem.merge(re, on=["userid", "feedid", "date_"], how='left')
+        result.append(tem)
+    result.append(df[df["date_"] < 2][["userid", "feedid", "date_"]])
+    saves = pd.concat(result)
+```
+2:embedding初始化  
+通过w2v等方式将tag进行embedding，然后进行mean生成item的embedding(这种方式我们一般成为mean-pooling)，这种方法也是先通过行转列的方式将tag拆分然后pooling起来。
+```python
+def user_tag_and_keywork_w2v(iteminfo,df,LGB_PATH,col):
+    temp = iteminfo.set_index(["feedid"])[col].str.split(";", expand=True).stack().reset_index(drop=True,level=-1).reset_index().rename(columns={0: col})
+    dff = df[['userid', 'feedid']].merge(temp, on='feedid', how='left')
+    dff = dff[pd.notna(dff[col])]
+    sentences = dff.groupby('userid')[col].apply(lambda x: [str(t) for t in x]).values
+    model = Word2Vec(sentences, vector_size=16, min_count=1, seed=0, workers=16)
+    data = dff.drop_duplicates(col)[[col]].reset_index(drop=True)
+    data = data[pd.notna(data[col])]
+
+    all_col = []
+    for i in range(0, 16):
+        cols = "{}_{}_w2v".format(col, i)
+        data[cols] = data[col].apply(lambda x: round(model.wv[str(x)].tolist()[i],6))
+        all_col.append(cols)
+    all_col=[col]+all_col
+    data=data[all_col]
+    temp=temp.merge(data,on=[col],how='left')
+    temp=temp.groupby(['feedid'])[all_col].mean().reset_index()
+    print(temp.info())
+    to_path = os.path.join(LGB_PATH, "{}_2_w2v.pkl".format(col))
+    temp.to_pickle(to_path)
+user_tag_and_keywork_w2v(iteminfo, df.copy(), LGB_PATH, "manual_tag_list")
+user_tag_and_keywork_w2v(iteminfo, df.copy(), LGB_PATH, "manual_keyword_list")
 ```
