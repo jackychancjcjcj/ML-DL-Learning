@@ -35,7 +35,7 @@ sub1 = pd.read_csv('../model/xgb_2020.csv')  # xgb
 sub2 = pd.read_csv(open(r'../model/cat_2020.csv'))  # cat
 sublist = [sub1, sub2]
 fusion = sub2.copy()
-fusion.isDefault = np.sqrt(sub1.isDefault.rank() * sub2.isDefault.rank())
+fusion.isDefault = np.sqrt(sub1.isDefault.rank(pct=True) * sub2.isDefault.rank(pct=True))
 ```
 ## <span id='2'>2.Stacking/Blending/Bagging</span>
 [Stacking](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/Stacking)
