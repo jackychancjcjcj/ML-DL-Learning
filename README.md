@@ -36,3 +36,7 @@
   * [缺陷检测](https://mp.weixin.qq.com/s/-GpT6IBAYPMEUHmULis3rA)
 * [时间序列赛事入门](https://mp.weixin.qq.com/s/63LPCHNo4zOA_UGDAc2xUQ)
 * [风控评分卡](https://zhuanlan.zhihu.com/p/148102950)
+## 待看
+* [中文近义词](https://github.com/chatopera/Synonyms)  
+* [bert文本分类](https://github.com/DA-southampton/Read_Bert_Code)  
+* [开源web知识图谱]()
