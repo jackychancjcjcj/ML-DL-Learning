@@ -2,7 +2,7 @@
 ![Author](https://img.shields.io/badge/Author-CJ-red.svg "Author")
 ![LICENSE](https://img.shields.io/github/license/JoeyBling/hexo-theme-yilia-plus "LICENSE")
 ![Language](https://img.shields.io/badge/Language-python3.6-green.svg "Laguage")
-![Last update](https://img.shields.io/badge/last%20update-02%20Apr%202021-brightgreen.svg?style=flat-square "Last update")
+![Last update](https://img.shields.io/badge/last%20update-11%20Nov%202021-brightgreen.svg?style=flat-square "Last update")
 ## 算法目录
 * [XGBoost](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/XGBoost)
 * [KMeans](https://github.com/jackychancjcjcj/ML-DL-Learning/tree/master/KMeans)  
@@ -29,6 +29,11 @@
   * [全民k歌推荐系统](https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&mid=2247534298&idx=1&sn=21ad88daaedaf33566862e27efc29f5e&chksm=fbd7f4b6cca07da043296b689ededb9923057f68e551c2af0f73a805bf4b38f6c9279b019d84&mpshare=1&scene=1&srcid=03081baDSEjGrRiqxVS8hBUe&sharer_sharetime=1615277823230&sharer_shareid=9b869c9a24181fe91d7ddd3f39c6511b&version=3.1.2.2211&platform=win#rd)
   * [网易云推荐系统](https://mp.weixin.qq.com/s?__biz=MjM5ODkzMzMwMQ==&mid=2650421089&idx=1&sn=774d2fa596a095f29b26db4efac6c5e0&chksm=becdb13b89ba382daac2e30c8f014af9d6324a85f182ffa0166bdc71ecffad9328c1d88b525f&mpshare=1&scene=1&srcid=0309MiobKnaHU0Hov4UeZ9Rd&sharer_sharetime=1615277851361&sharer_shareid=9b869c9a24181fe91d7ddd3f39c6511b&version=3.1.2.2211&platform=win#rd)
   * [AutoInt自动高阶特征交叉](https://mp.weixin.qq.com/s?__biz=MzIwNDA5NDYzNA==&mid=2247490372&idx=1&sn=907a74fb600c417bb3831d33d5fc8553&chksm=96c43681a1b3bf979bfec5ccd7c82d54843e56f8fb5750aba008dc9ce2aedf212f3f54da15fb&mpshare=1&scene=1&srcid=0315VT5WVc0YbivCo2s15Ezu&sharer_sharetime=1615774286716&sharer_shareid=9b869c9a24181fe91d7ddd3f39c6511b&version=3.1.2.2211&platform=win#rd)
+  * [Embedding设计技巧](https://mp.weixin.qq.com/s/Nx4gbMPv1XWg_-VpFHdAKg)
+  * [微信大数据竞赛-多字段pooling](https://mp.weixin.qq.com/s/RB5WCYK3iJg7DvPmRakL3g)
+  * [基于DIN衍生特征](https://mp.weixin.qq.com/s/tWnqUjSJoE8TbiswNV9bHg)
+  * [冷启动Embedding](https://mp.weixin.qq.com/s/STuEtTi8s2JaoaSsyUxX3g)
+  * [微信大数据3ID](https://mp.weixin.qq.com/s/s9TtcpV4OCCHpZoGy5Gd4w)
 * [NLP赛事入门](https://mp.weixin.qq.com/s/IxwCTAGJ6gzqBOJGOBdJvQ)
   * [Transformer资料汇总](https://mp.weixin.qq.com/s/xKksLUzmtrx5NIN0D9tW0w)
   * [中文文本分类-bert+pytorch代码](https://github.com/649453932/Bert-Chinese-Text-Classification-Pytorch)
@@ -36,7 +41,11 @@
   * [缺陷检测](https://mp.weixin.qq.com/s/-GpT6IBAYPMEUHmULis3rA)
 * [时间序列赛事入门](https://mp.weixin.qq.com/s/63LPCHNo4zOA_UGDAc2xUQ)
 * [风控评分卡](https://zhuanlan.zhihu.com/p/148102950)
-## 待看
+
+## 待看文章
+* [腾讯多目标用户建模](https://mp.weixin.qq.com/s/sECoYiCCkbb3-_hZ8LP3Lw)
+* 
+## 待看项目
 * [中文近义词](https://github.com/chatopera/Synonyms)  
 * [bert文本分类](https://github.com/DA-southampton/Read_Bert_Code)  
 * [开源web知识图谱](https://github.com/lixiang0/WEB_KG)  
@@ -63,4 +72,10 @@
 * [2021年讯飞开发者大赛空气质量预测top2](https://github.com/zui0711/iflytek2021-AirQualityPrediction)  
 * [DIGIX2021 基于多目标优化的视频推荐top2](https://github.com/librauee/DIGIX2021)  
 * [DIGIX2021 基于多目标优化的视频推荐top1](https://github.com/Q-Qing/huawei_digix2021_track1)  
-* 
+* [transformer序列建模](https://www.kaggle.com/cdeotte/tensorflow-transformer-0-112/comments?scriptVersionId=78792844)  
+* [QQ浏览器多模态赛道Top开源](https://mp.weixin.qq.com/s/xUmMlx1IycGq0HSNp-eyUg)  
+* [车辆贷款违约预测top1](https://mp.weixin.qq.com/s/pgMstiJirpqIEL2SmNhvtA)  
+* [optiver股票预测金牌方案-lgb+nn](https://mp.weixin.qq.com/s/xV4VEvAlGea3Nf1IphBxww)
+* [2021中国大学生保险数字挑战赛方案](https://mp.weixin.qq.com/s/9cflEds1xmTUMNB-XqGeBg)
+* [1dcnn+dnn+tabnet](https://github.com/baosenguo/Kaggle-MoA-2nd-Place-Solution/blob/main/training)
+* [optiver股票预测金牌方案-gnn](https://mp.weixin.qq.com/s/58zDsMzZ9tWhYr4NolvuJw)
