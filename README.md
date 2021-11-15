@@ -84,3 +84,4 @@
 * [数据挖掘竞赛获胜方案分类汇总之一：一张简单表](https://zhuanlan.zhihu.com/p/348271642)
 * [时序比赛汇总](https://zhuanlan.zhihu.com/p/408838120)
 * [【金融机器学习】Kaggle金融&时间预测相关比赛整理：Dataset, Model and Winner's Solution](https://zhuanlan.zhihu.com/p/35363444)
+* [optiver波动预测方案](https://www.kaggle.com/c/optiver-realized-volatility-prediction/code)
