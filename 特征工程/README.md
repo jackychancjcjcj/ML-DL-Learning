@@ -32,6 +32,7 @@
 * [group+svd-用户交互特征](#23)
 * [时间处理](#24)
 * [树模型tag_pooling](#25)
+* [近邻欺诈id](#26)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -932,4 +933,34 @@ def user_tag_and_keywork_w2v(iteminfo,df,LGB_PATH,col):
     temp.to_pickle(to_path)
 user_tag_and_keywork_w2v(iteminfo, df.copy(), LGB_PATH, "manual_tag_list")
 user_tag_and_keywork_w2v(iteminfo, df.copy(), LGB_PATH, "manual_keyword_list")
+```
+## <span id='26'>近邻欺诈id</span>
+```python
+def gen_neighbor_feats(train, test, id):
+    '''产生近邻欺诈特征'''
+    if not os.path.exists('model/neighbor_default_probs_{}.pkl'.format(id)):
+        # 该特征需要跑的时间较久，因此将其存成了pkl文件
+        neighbor_default_probs = []
+        for i in tqdm(range(train[id].max())):
+            if i >= 10 and i < train[id].max():
+                customer_id_neighbors = list(range(i - 10, i)) + list(range(i + 1, i + 10))
+            elif i < train[id].max():
+                customer_id_neighbors = list(range(0, i)) + list(range(i + 1, i + 10))
+            else:
+                customer_id_neighbors = list(range(i - 10, i)) + list(range(i + 1, 199706))
+            customer_id_neighbors = [customer_id_neighbor for customer_id_neighbor in customer_id_neighbors if
+                                     customer_id_neighbor in train[id].values.tolist()]
+            neighbor_default_prob = train.set_index(id).loc[customer_id_neighbors].isDefault.mean()
+            neighbor_default_probs.append(neighbor_default_prob)
+        df_neighbor_default_prob = pd.DataFrame({id: range(0, train.customer_id.max()),
+                                                 'neighbor_default_prob': neighbor_default_probs})
+        pkl.dumps(df_neighbor_default_prob, 'model/neighbor_default_probs_{}.pkl'.format(id))
+    else:
+        df_neighbor_default_prob = pkl.loads('model/neighbor_default_probs_{}.pkl'.format(id))
+    train = pd.merge(left=train, right=df_neighbor_default_prob, on=id, how='left')
+    test = pd.merge(left=test, right=df_neighbor_default_prob, on=id, how='left')
+    return train, test
+
+for col in ['user_id','loan_id']:
+    train,test = gen_neighbor_feats(train,test,col)
 ```
