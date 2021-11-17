@@ -85,3 +85,6 @@
 * [时序比赛汇总](https://zhuanlan.zhihu.com/p/408838120)
 * [【金融机器学习】Kaggle金融&时间预测相关比赛整理：Dataset, Model and Winner's Solution](https://zhuanlan.zhihu.com/p/35363444)
 * [optiver波动预测方案](https://www.kaggle.com/c/optiver-realized-volatility-prediction/code)
+* [kaggle-safe_driver_prediction](https://www.kaggle.com/c/porto-seguro-safe-driver-prediction?utm_source=wechat_session&utm_medium=social&utm_oi=623469355980296192)
+* [kaggle-customer_transaction_prediction](https://www.kaggle.com/c/santander-customer-transaction-prediction?utm_source=wechat_session&utm_medium=social&utm_oi=623469355980296192)
+* [kaggle_mechanism_of_action](https://www.kaggle.com/c/lish-moa?utm_source=wechat_session&utm_medium=social&utm_oi=623469355980296192)
