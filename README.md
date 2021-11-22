@@ -90,6 +90,11 @@
 * [kaggle_mechanism_of_action](https://www.kaggle.com/c/lish-moa?utm_source=wechat_session&utm_medium=social&utm_oi=623469355980296192)
 * [时序竞赛M-competition](https://mp.weixin.qq.com/s/ee0ucPKMD1XqYt6A-Mh-vA)
 * [基于用户画像的商品推荐top5](https://github.com/DuoduoMoney/iFLYTEK_rec)
+* [ccks2019实体链接top1](https://github.com/WangShengguang/ccks-2020)
+* [ccks2019知识库问答top4](https://github.com/duterscmy/ccks2019-ckbqa-4th-codes)
+* [ccks2019知识库问答top5](https://github.com/JavaStudenttwo/ccks_kg)
+* [ccks2019知识库问答baseline](https://github.com/WangShengguang/ccks-2020)
+* [ccks2019知识库问答baseline2](https://github.com/wgwang/ccks2020-baseline)
 ## 数据集
 * [中文聊条语料](https://github.com/codemayq/chinese_chatbot_corpus)
 * [大规模中文自然语言处理语料](https://github.com/brightmart/nlp_chinese_corpus)
