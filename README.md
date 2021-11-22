@@ -88,3 +88,4 @@
 * [kaggle-safe_driver_prediction](https://www.kaggle.com/c/porto-seguro-safe-driver-prediction?utm_source=wechat_session&utm_medium=social&utm_oi=623469355980296192)
 * [kaggle-customer_transaction_prediction](https://www.kaggle.com/c/santander-customer-transaction-prediction?utm_source=wechat_session&utm_medium=social&utm_oi=623469355980296192)
 * [kaggle_mechanism_of_action](https://www.kaggle.com/c/lish-moa?utm_source=wechat_session&utm_medium=social&utm_oi=623469355980296192)
+* [时序竞赛M-competition](https://mp.weixin.qq.com/s/ee0ucPKMD1XqYt6A-Mh-vA)
