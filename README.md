@@ -44,7 +44,7 @@
 
 ## 待看文章
 * [腾讯多目标用户建模](https://mp.weixin.qq.com/s/sECoYiCCkbb3-_hZ8LP3Lw)
-* 
+* [时间序列特征4个技巧](https://zhuanlan.zhihu.com/p/417620002)  
 ## 待看项目
 * [中文近义词](https://github.com/chatopera/Synonyms)  
 * [bert文本分类](https://github.com/DA-southampton/Read_Bert_Code)  
