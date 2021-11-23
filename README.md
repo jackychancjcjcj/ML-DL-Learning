@@ -95,6 +95,7 @@
 * [ccks2019知识库问答top5](https://github.com/JavaStudenttwo/ccks_kg)
 * [ccks2019知识库问答baseline](https://github.com/WangShengguang/ccks-2020)
 * [ccks2019知识库问答baseline2](https://github.com/wgwang/ccks2020-baseline)
+* [bert领域预训练+finetune](https://github.com/xv44586/toolkit4nlp/blob/master/examples/classification_tnews_pretrain_before_finetuning.py)
 ## 数据集
 * [中文聊条语料](https://github.com/codemayq/chinese_chatbot_corpus)
 * [大规模中文自然语言处理语料](https://github.com/brightmart/nlp_chinese_corpus)
