@@ -97,6 +97,7 @@
 * [ccks2019知识库问答baseline2](https://github.com/wgwang/ccks2020-baseline)
 * [bert领域预训练+finetune-tf](https://github.com/xv44586/toolkit4nlp/blob/master/examples/classification_tnews_pretrain_before_finetuning.py)
 * [bert领域预训练-torch](https://github.com/circlePi/Pretraining-Yourself-Bert-From-Scratch)
+* [bert领域预训练-torch2](https://github.com/zhusleep/pytorch_chinese_lm_pretrain)
 * [bert领域预训练-transformer](https://www.kaggle.com/arnabs007/pretrain-a-bert-language-model-from-scratch)
 ## 数据集
 * [中文聊条语料](https://github.com/codemayq/chinese_chatbot_corpus)
