@@ -89,6 +89,7 @@
 * [kaggle-customer_transaction_prediction](https://www.kaggle.com/c/santander-customer-transaction-prediction?utm_source=wechat_session&utm_medium=social&utm_oi=623469355980296192)
 * [kaggle_mechanism_of_action](https://www.kaggle.com/c/lish-moa?utm_source=wechat_session&utm_medium=social&utm_oi=623469355980296192)
 * [时序竞赛M-competition](https://mp.weixin.qq.com/s/ee0ucPKMD1XqYt6A-Mh-vA)
+* [腾讯2021广告算法大赛答辩](https://mp.weixin.qq.com/s/VOZqTqqbpfi8dNKB3CSPvw)
 * [基于用户画像的商品推荐top5](https://github.com/DuoduoMoney/iFLYTEK_rec)
 * [ccks2019实体链接top1](https://github.com/WangShengguang/ccks-2020)
 * [ccks2019知识库问答top4](https://github.com/duterscmy/ccks2019-ckbqa-4th-codes)
