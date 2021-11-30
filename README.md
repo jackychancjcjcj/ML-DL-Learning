@@ -34,6 +34,7 @@
   * [基于DIN衍生特征](https://mp.weixin.qq.com/s/tWnqUjSJoE8TbiswNV9bHg)
   * [冷启动Embedding](https://mp.weixin.qq.com/s/STuEtTi8s2JaoaSsyUxX3g)
   * [微信大数据3ID](https://mp.weixin.qq.com/s/s9TtcpV4OCCHpZoGy5Gd4w)
+  * [微信大数据3ID特征](https://mp.weixin.qq.com/s/v5fcyy8edZpygK5HKHqAWQ)
 * [NLP赛事入门](https://mp.weixin.qq.com/s/IxwCTAGJ6gzqBOJGOBdJvQ)
   * [Transformer资料汇总](https://mp.weixin.qq.com/s/xKksLUzmtrx5NIN0D9tW0w)
   * [中文文本分类-bert+pytorch代码](https://github.com/649453932/Bert-Chinese-Text-Classification-Pytorch)
