@@ -78,7 +78,6 @@
 * [车辆贷款违约预测top1](https://mp.weixin.qq.com/s/pgMstiJirpqIEL2SmNhvtA)  
 * [optiver股票预测金牌方案-lgb+nn](https://mp.weixin.qq.com/s/xV4VEvAlGea3Nf1IphBxww)
 * [2021中国大学生保险数字挑战赛方案](https://mp.weixin.qq.com/s/9cflEds1xmTUMNB-XqGeBg)
-* [1dcnn+dnn+tabnet](https://github.com/baosenguo/Kaggle-MoA-2nd-Place-Solution/blob/main/training)
 * [optiver股票预测金牌方案-gnn](https://mp.weixin.qq.com/s/58zDsMzZ9tWhYr4NolvuJw)
 * [文本分类top_solution](https://zhuanlan.zhihu.com/p/405551942)
 * [数据挖掘竞赛获胜方案分类汇总之二：主从表](https://zhuanlan.zhihu.com/p/350929523)
