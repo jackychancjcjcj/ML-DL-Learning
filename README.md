@@ -83,6 +83,8 @@
 * [kaggle-customer_transaction_prediction](https://www.kaggle.com/c/santander-customer-transaction-prediction?utm_source=wechat_session&utm_medium=social&utm_oi=623469355980296192)
 * [kaggle-mechanism_of_action](https://www.kaggle.com/c/lish-moa?utm_source=wechat_session&utm_medium=social&utm_oi=623469355980296192)
 * [kaggle-jane street market prediction](https://www.kaggle.com/c/jane-street-market-prediction/overview)
+* [kaggle-G-Research Crypto Forecasting](https://www.kaggle.com/c/g-research-crypto-forecasting/overview)
+* [kaggle-Riiid Answer Correctness Prediction](https://www.kaggle.com/c/riiid-test-answer-prediction)
 * [时序竞赛M-competition](https://mp.weixin.qq.com/s/ee0ucPKMD1XqYt6A-Mh-vA)
 * [腾讯2021广告算法大赛答辩](https://mp.weixin.qq.com/s/VOZqTqqbpfi8dNKB3CSPvw)
 * [KDD2021答辩及开源](https://mp.weixin.qq.com/s/Mgq3nn7tOZkp9_n82sXndA)
