@@ -98,9 +98,6 @@
 * [bert领域预训练-torch](https://github.com/circlePi/Pretraining-Yourself-Bert-From-Scratch)
 * [bert领域预训练-torch2](https://github.com/zhusleep/pytorch_chinese_lm_pretrain)
 * [bert领域预训练-transformer](https://www.kaggle.com/arnabs007/pretrain-a-bert-language-model-from-scratch)
-* [“合肥高新杯”心电人机智能大赛——心电异常事件预测baseline](https://github.com/wbbhcb/hefei_ecg)
-* [“合肥高新杯”心电人机智能大赛——心电异常事件预测top8](https://github.com/gen0924/ECG-HEFEI)
-* [“合肥高新杯”心电人机智能大赛——心电异常事件预测top1](https://github.com/zhengqi98/Hefei_ECG_TOP1)
 ## 数据集
 * [中文聊条语料](https://github.com/codemayq/chinese_chatbot_corpus)
 * [大规模中文自然语言处理语料](https://github.com/brightmart/nlp_chinese_corpus)
