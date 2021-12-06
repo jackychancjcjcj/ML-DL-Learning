@@ -65,8 +65,6 @@
 * [google-brain kaggle开源代码](https://www.kaggle.com/c/ventilator-pressure-prediction/code)  
 * [推荐算法竞赛TOP方案合集](https://zhuanlan.zhihu.com/p/317708353)  
 * [2021年讯飞开发者大赛空气质量预测top2](https://github.com/zui0711/iflytek2021-AirQualityPrediction)  
-* [DIGIX2021 基于多目标优化的视频推荐top2](https://github.com/librauee/DIGIX2021)  
-* [DIGIX2021 基于多目标优化的视频推荐top1](https://github.com/Q-Qing/huawei_digix2021_track1)  
 * [transformer序列建模](https://www.kaggle.com/cdeotte/tensorflow-transformer-0-112/comments?scriptVersionId=78792844)  
 * [QQ浏览器多模态赛道Top开源](https://mp.weixin.qq.com/s/xUmMlx1IycGq0HSNp-eyUg)  
 * [车辆贷款违约预测top1](https://mp.weixin.qq.com/s/pgMstiJirpqIEL2SmNhvtA)  
