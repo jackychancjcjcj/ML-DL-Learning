@@ -33,6 +33,7 @@
 * [时间处理](#24)
 * [树模型tag_pooling](#25)
 * [近邻欺诈id](#26)
+* [时间划窗](#27)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -963,4 +964,16 @@ def gen_neighbor_feats(train, test, id):
 
 for col in ['user_id','loan_id']:
     train,test = gen_neighbor_feats(train,test,col)
+```
+## <span id='27'>时间滑窗</span>
+```python
+### rolling
+import pandas as pd
+s = [1,2,3,5,6,10,12,14,12,30]
+pd.Series(s).rolling(window=3).mean()
+
+### shift
+import pandas as pd
+s = [1,2,3,5,6,10,12,14,12,30]
+pd.Series(s).shift(period=1)
 ```
