@@ -1,3 +1,36 @@
+## 初始化环境
+```python
+def seed_everything(seed=2020):
+    seed = int(seed)
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+```
+## 阈值
+```python
+def find_best_threshold(y_valid, oof_prob):
+    best_f2 = 0
+
+    for th in tqdm([i / 1000 for i in range(50, 200)]):
+        oof_prob_copy = oof_prob.copy()
+        oof_prob_copy[oof_prob_copy >= th] = 1
+        oof_prob_copy[oof_prob_copy < th] = 0
+
+        recall = recall_score(y_valid, oof_prob_copy)
+        precision = precision_score(y_valid, oof_prob_copy)
+        f2 = 5 * recall * precision / (4 * precision + recall)
+
+        if f2 > best_f2:
+            best_th = th
+            best_f2 = f2
+
+        gc.collect()
+
+    return best_th, best_f2
+
+best_th, best_f2 = find_best_threshold(y_valid, oof_prob)
+print(best_th, best_f2)
+```
 ## 标准代码
 TIPS:  
 1.LGB可以自己处理na，但我们也可以先处理na再给lgb  
@@ -9,7 +42,7 @@ params = {
     'categorical_feature':cate_feat
 }
 ```
-## lgb
+## lgb sklearn
 ```python
 from lightgbm.sklearn import LGBMClassifier
 from sklearn.metrics import f1_score, roc_auc_score
@@ -153,4 +186,61 @@ sub = pd.read_csv('data/sub/answer.csv')
 sub['tag'] = pred_fold
 sub.to_csv('data/sub/sub_20211118_%.5f.csv'%kfold_best_f1, index=False)
 ```
-## 
+## catboost 原生
+```python
+result = []
+ff = []
+model_name = 'cat'
+mask_value = -9999
+df = pd.read_csv('data/trainreference.csv')
+data = pd.read_csv('data/ml_feature.csv')
+col = [str(i) for i in range(2004)]
+data = data[col].values
+folds = 10
+skf = StratifiedKFold(n_splits=folds)
+is_test = 0
+oof = np.zeros((len(df), 1))
+for fold, (train_idx, val_idx) in enumerate(skf.split(df, df['tag'].values)):
+    print('-----------' + str(fold) + '---------------')
+    trn_data = data[train_idx]
+    val_data = data[val_idx]
+#    print(val_data.shape, trn_data.shape)
+    trn_label = df.loc[train_idx]['tag'].values
+    val_label = df.loc[val_idx]['tag'].values
+    for j in ['tag']:
+        dtrain = lgb.Dataset(trn_data, label=trn_label)
+        dvalid = lgb.Dataset(val_data, label=val_label)
+        save_path = os.path.join('model/model_' + model_name + str(fold) + '.pickle')
+        if is_test == 0:
+            if model_name == 'cat':
+                clf = cat.CatBoostClassifier(
+                                             eval_metric='F1', use_best_model=True, 
+                                             early_stopping_rounds=500, random_state=2021, 
+                                             boosting_type='Plain', logging_level='Silent')
+#                trn_data[np.isnan(trn_data)] = mask_value
+                clf.fit(trn_data, trn_label, eval_set=(val_data, val_label), verbose=None)
+        else:
+            clf = cat.CatBoostClassifier(task_type='GPU', devices='0')
+            clf.load_model(save_path)
+        if model_name == 'cat':
+#            val_data[np.isnan(val_data)] = mask_value
+            oof[val_idx, 0] = clf.predict(val_data)
+        val_f1 = metrics.f1_score(val_label, list(map(lambda x: 1 if x > 0.5 else 0, oof[val_idx, 0])))
+        print('Fold{} Best f1: {:.3f}'.format(fold+1,val_f1))
+        if is_test == 0:
+            with open(save_path, 'wb') as f:
+                pickle.dump(clf, f)
+    ff.append(val_f1)
+
+pred_fold = np.zeros((len(data[len(df):]), 1))
+for i in range(folds):
+    save_path = 'model/model_' + model_name + str(i) + '.pickle'
+    with open(save_path, 'rb+') as f:
+        clf = pickle.load(f)
+    pred_fold[:,0] += clf.predict_proba(data[len(df):])[:,1]/folds
+kfold_best_f1 = np.mean(ff)
+sub = pd.read_csv('data/sub/answer.csv')
+sub['tag'] = pred_fold
+sub.to_csv('data/sub/sub_20211118_%.5f.csv'%kfold_best_f1, index=False)
+print(kfold_best_f1)
+```
