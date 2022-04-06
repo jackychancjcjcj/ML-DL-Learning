@@ -70,6 +70,7 @@ df_importance = df_importance.groupby(['column'])['feature_importance'].agg('mea
 df_importance.head(10)
 ```
 ## lgb原生
+```python
 result = []
 ff = []
 model_name = 'lgb'
@@ -148,4 +149,5 @@ for i in range(folds):
 sub = pd.read_csv('data/sub/answer.csv')
 sub['tag'] = pred_fold
 sub.to_csv('data/sub/sub_20211118_%.5f.csv'%kfold_best_f1, index=False)
+```
 ## 
