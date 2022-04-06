@@ -28,10 +28,13 @@ clf = LGBMClassifier(
     learning_rate=0.05,
     n_estimators=10000,
     max_depth=6,
-    num_leaves=100,
     subsample=0.8,
     colsample_bytree=0.8,
     random_state=1023,
+    reg_alpha=.3,
+    reg_lambda=.3,
+    min_split_gain=.01,
+    min_child_weight=2,
     metric=None
 )
 
