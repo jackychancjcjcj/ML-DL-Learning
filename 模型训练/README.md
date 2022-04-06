@@ -9,7 +9,7 @@ params = {
     'categorical_feature':cate_feat
 }
 ```
-lgb：
+## lgb
 ```python
 from lightgbm.sklearn import LGBMClassifier
 from sklearn.metrics import f1_score, roc_auc_score
