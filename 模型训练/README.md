@@ -69,3 +69,83 @@ df_importance = pd.concat(df_importance_list)
 df_importance = df_importance.groupby(['column'])['feature_importance'].agg('mean').sort_values(ascending=False).reset_index()
 df_importance.head(10)
 ```
+## lgb原生
+result = []
+ff = []
+model_name = 'lgb'
+mask_value = -9999
+df = pd.read_csv('data/trainreference.csv')
+data = pd.read_csv('data/ml_feature.csv')
+col = [str(i) for i in range(2004)]
+data = data[col].values
+folds = 5
+skf = StratifiedKFold(n_splits=folds)
+is_test = 0
+oof = np.zeros((len(df), 1))
+for fold, (train_idx, val_idx) in enumerate(skf.split(df, df['tag'].values)):
+    print('-----------' + str(fold) + '---------------')
+    trn_data = data[train_idx]
+    val_data = data[val_idx]
+#    print(val_data.shape, trn_data.shape)
+    trn_label = df.loc[train_idx]['tag'].values
+    val_label = df.loc[val_idx]['tag'].values
+    
+    for j in ['tag']:
+        params = {
+            'learning_rate': 0.05,
+            # 'boosting_type': 'dart',
+            'objective': 'binary',
+#            'metric': 'binary_logloss',
+#            'metric': 'auc',
+            'num_leaves': 31,
+            'feature_fraction': 0.95,
+            'bagging_fraction': 0.95,
+            'bagging_freq': 5,
+            # 'is_unbalance': True,
+            'seed': 1,
+            'bagging_seed': 1,
+            'feature_fraction_seed': 7,
+            'min_data_in_leaf': 5,
+            'nthread': -1
+        }
+
+        dtrain = lgb.Dataset(trn_data, label=trn_label)
+        dvalid = lgb.Dataset(val_data, label=val_label)
+        save_path = os.path.join('model/model_' + model_name + str(fold) + '.pickle')
+        if is_test == 0:
+            if model_name == 'lgb':
+                clf = lgb.train(
+                    params=params,
+                    train_set=dtrain,
+                    num_boost_round=10000,
+                    valid_sets=[dvalid],
+                    early_stopping_rounds=100,
+                    verbose_eval=300,
+                    feval = self_metric
+                )
+                clf.fit(trn_data, trn_label, eval_set=(val_data, val_label), verbose=None)
+        else:
+            with open(save_path, 'rb+') as f:
+                clf = pickle.load(f)
+        if model_name == 'lgb':
+            oof[val_idx, 0] = clf.predict(val_data, num_iteration=clf.best_iteration)
+        val_f1 = metrics.f1_score(val_label, list(map(lambda x: 1 if x > 0.5 else 0, oof[val_idx, 0])))
+        print('Fold{} Best f1: {:.3f}'.format(fold+1,val_f1))
+
+        if is_test == 0:
+            with open(save_path, 'wb') as f:
+                pickle.dump(clf, f)
+        
+    ff.append(val_f1)
+kfold_best_f1 = np.mean(ff)
+print(kfold_best_f1)
+pred_fold = np.zeros((len(data[len(df):]), 1))
+for i in range(folds):
+    save_path = 'model/model_' + model_name + str(i) + '.pickle'
+    with open(save_path, 'rb+') as f:
+        clf = pickle.load(f)
+    pred_fold[:,0] += clf.predict(data[len(df):],num_iteration=clf.best_iteration)/folds
+sub = pd.read_csv('data/sub/answer.csv')
+sub['tag'] = pred_fold
+sub.to_csv('data/sub/sub_20211118_%.5f.csv'%kfold_best_f1, index=False)
+## 
