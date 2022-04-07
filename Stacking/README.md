@@ -77,6 +77,24 @@ params = {
     'tree_method': 'hist',
 }
 ```
+lgb分类：
+```python
+params = {
+    boosting='gbdt',
+    objective='binary',
+    learning_rate=0.05,
+    n_estimators=10000,
+    max_depth=6,
+    subsample=0.8,
+    colsample_bytree=0.8,
+    random_state=1023,
+    reg_alpha=.3,
+    reg_lambda=.3,
+    min_split_gain=.01,
+    min_child_weight=2,
+    metric=None
+}
+```
 # 标准化代码
 ```python
 import xgboost as xgb
