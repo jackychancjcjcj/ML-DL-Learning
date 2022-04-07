@@ -283,3 +283,56 @@ for seed in seeds:
     print('\ncv_auc: ', cv_auc)
 print(val_aucs, np.mean(val_aucs))
 ```
+## xgb sklearn
+```python
+import xgboost as xgb
+from sklearn.metrics import f1_score, roc_auc_score
+train_df = df[df['label'].isna() == False].reset_index(drop=True)
+test_df = df[df['label'].isna() == True].reset_index(drop=True)
+display(train_df.shape, test_df.shape)
+cols = [col for col in train_df.columns if col not in ['id', 'label']]
+
+oof = np.zeros(train_df.shape[0])
+df_importance_list = []
+train_df['prob'] = 0
+test_df['prob'] = 0
+parameters = {
+    'booster': 'gbtree',
+    'objective': 'binary:logistic',
+    'eval_metric': 'auc',
+    'min_child_weight': 5,
+    'max_depth': 8,
+    'subsample': 0.8,
+    'colsample_bytree': 0.8,
+    'eta': lr,
+    'seed': 2020,
+    # 'tree_method':'gpu_hist',
+    'tree_method': 'hist',
+}
+
+val_aucs = []
+seeds = [1023, 2048, 2098]
+for seed in seeds:
+    skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
+    for i, (trn_idx, val_idx) in enumerate(skf.split(train_df, train_df['label'])):
+        print('--------------------- {} fold ---------------------'.format(i))
+        trn_x, trn_y = train_df[cols].iloc[trn_idx].reset_index(drop=True), train_df['label'].values[trn_idx]
+        val_x, val_y = train_df[cols].iloc[val_idx].reset_index(drop=True), train_df['label'].values[val_idx]
+        dtrain = xgb.DMatrix(trn_x, trn_y)
+        dval = xgb.DMatrix(val_x, val_y)
+        watchlist = [(dtrain, 'train'), (dval, 'eval')]
+        xgb_model = xgb.train(parameters, dtrain, num_boost_round=5000, evals=watchlist, verbose_eval=100,
+                              early_stopping_rounds=100)
+        oof[val_idx] += xgb_model.predict(xgb.DMatrix(val_x),ntree_limit=xgb_model.best_ntree_limit)
+        train_df['prob'] += xgb_model.predict(xgb.DMatrix(trn_x),ntree_limit=xgb_model.best_ntree_limit) / skf.n_splits / len(seeds)
+        test_df['prob'] += xgb_model.predict(xgb.DMatrix(test_df[cols]),ntree_limit=xgb_model.best_ntree_limit) / skf.n_splits / len(seeds)
+        df_importance = pd.DataFrame({
+        'column':cols,
+        'feature_importance':clf.feature_importances_
+    })
+        df_importance_list.append(df_importance)
+    cv_auc = roc_auc_score(train_df['label'], oof)
+    val_aucs.append(cv_auc)
+    print('\ncv_auc: ', cv_auc)
+print(val_aucs, np.mean(val_aucs))
+```
