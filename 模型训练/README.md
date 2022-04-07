@@ -1,4 +1,12 @@
-## 初始化环境
+* [初始化环境](#1)
+* 训练
+    * [lgb sklearn](#2.1)
+    * [lgb 原生](#2.2)
+    * [xgb sklearn](#2.3)
+    * [xgb 原生](#2.4)
+    * [cat 原生](#2.5)
+* [阈值](#3)
+## <span id='1'>初始化环境</span>
 ```python
 def seed_everything(seed=2020):
     seed = int(seed)
@@ -6,7 +14,7 @@ def seed_everything(seed=2020):
     os.environ['PYTHONHASHSEED'] = str(seed)
     np.random.seed(seed)
 ```
-## 阈值
+## <span id='3'>阈值</span>
 ```python
 def find_best_threshold(y_valid, oof_prob):
     best_f2 = 0
@@ -31,18 +39,7 @@ def find_best_threshold(y_valid, oof_prob):
 best_th, best_f2 = find_best_threshold(y_valid, oof_prob)
 print(best_th, best_f2)
 ```
-## 标准代码
-TIPS:  
-1.LGB可以自己处理na，但我们也可以先处理na再给lgb  
-2.lgb可以处理categorical_features,做法：
-```python
-for i in cate_feat:
-        data_df[i] = data_df[i].astype('category')
-params = {
-    'categorical_feature':cate_feat
-}
-```
-## lgb sklearn
+## <span id='2.1'>lgb sklearn</span>
 ```python
 from lightgbm.sklearn import LGBMClassifier
 from sklearn.metrics import f1_score, roc_auc_score
@@ -105,7 +102,7 @@ df_importance = pd.concat(df_importance_list)
 df_importance = df_importance.groupby(['column'])['feature_importance'].agg('mean').sort_values(ascending=False).reset_index()
 df_importance.head(10)
 ```
-## lgb原生
+## <span id='2.2'>lgb 原生</span>
 ```python
 result = []
 ff = []
@@ -177,7 +174,7 @@ for i in range(folds):
     pred_fold[:, 0] += clf.predict(test_df, num_iteration=clf.best_iteration) / folds
 sub.to_csv('data/sub/sub_20211118_%.5f.csv' % kfold_best_f1, index=False)
 ```
-## catboost 原生
+## <span id='2.5'>cat 原生</span>
 ```python
 result = []
 ff = []
@@ -223,7 +220,7 @@ kfold_best_f1 = np.mean(ff)
 sub.to_csv('data/sub/sub_20211118_%.5f.csv'%kfold_best_f1, index=False)
 print(kfold_best_f1)
 ```
-## xgb sklearn
+## <span id='2.3'>xgb sklearn</span>
 ```python
 import xgboost as xgb
 from sklearn.metrics import f1_score, roc_auc_score
@@ -283,7 +280,7 @@ for seed in seeds:
     print('\ncv_auc: ', cv_auc)
 print(val_aucs, np.mean(val_aucs))
 ```
-## xgb sklearn
+## <span id='2.4'>xgb 原生</span>
 ```python
 import xgboost as xgb
 from sklearn.metrics import f1_score, roc_auc_score
