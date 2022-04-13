@@ -150,7 +150,6 @@ for fold, (train_idx, val_idx) in enumerate(skf.split(train_df, train_df['tag'].
             verbose_eval=300,
             feval=self_metric
         )
-        clf.fit(trn_data, trn_label, eval_set=(val_data, val_label), verbose=None)
     else:
         with open(save_path, 'rb+') as f:
             clf = pickle.load(f)
