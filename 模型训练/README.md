@@ -70,6 +70,10 @@ clf = LGBMClassifier(
 
 val_aucs = []
 seeds = [1023, 2048, 2098]
+df_importance = pd.DataFrame({
+  'column':cols,
+  'feature_importance':np.zeros(len(cols))
+})
 for seed in seeds:
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
     for i, (trn_idx, val_idx) in enumerate(skf.split(train_df, train_df['label'])):
@@ -86,11 +90,8 @@ for seed in seeds:
         oof[val_idx] += clf.predict_proba(val_x)[:, 1]
         train_df['prob'] += clf.predict_proba(train_df[cols])[:, 1] / skf.n_splits / len(seeds)
         test_df['prob'] += clf.predict_proba(test_df[cols])[:, 1] / skf.n_splits / len(seeds)
-        df_importance = pd.DataFrame({
-        'column':cols,
-        'feature_importance':clf.feature_importances_
-    })
-        df_importance_list.append(df_importance)
+        df_importance['df_importance'] += clf.feature_importances_ / skf.n_splits / len(seeds)
+
     cv_auc = roc_auc_score(train_df['label'], oof)
     val_aucs.append(cv_auc)
     print('\ncv_auc: ', cv_auc)
