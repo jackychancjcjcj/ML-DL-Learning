@@ -111,7 +111,10 @@ folds = 5
 skf = StratifiedKFold(shuffle=True,n_splits=folds,random_state=1024)
 is_test = 0
 oof = np.zeros((len(train_df), 1))
-
+df_importance = pd.DataFrame({
+    'column':cols,
+    'feature_importance':np.zeros(len(cols))
+})
 for fold, (train_idx, val_idx) in enumerate(skf.split(train_df, train_df['tag'].values)):
     print('-----------' + str(fold) + '---------------')
     trn_data = train_df[train_idx]
@@ -163,7 +166,8 @@ for fold, (train_idx, val_idx) in enumerate(skf.split(train_df, train_df['tag'].
             pickle.dump(clf, f)
 
     ff.append(val_f1)
-
+    df_importance['feature_importance'] += clf.feature_importance(importance_type='gain') / skf.n_splits
+    
 kfold_best_f1 = np.mean(ff)
 print(kfold_best_f1)
 pred_fold = np.zeros((len(test_df), 1))
