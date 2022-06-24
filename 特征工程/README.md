@@ -29,6 +29,7 @@
 * [近邻欺诈id](#26)
 * [时间划窗](#27)
 * [NULLimportance筛选特征](#28)
+* [伪标签](#29)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -1114,4 +1115,12 @@ def nullImportant(train_df,select_frts):
     importance_last=sorted(diff_list,key=lambda x: x[1],reverse=True)
     importance_last_div=sorted(diff_list_div,key=lambda x: x[1],reverse=True)
     retrun importance_last
+```
+
+## <span id='29'>伪标签</span>
+```python
+# 得到伪标签
+pseudo_labels = prob.query('cat_prob >0.85 and lgb_prob >0.85 and lgb_label == cat_label')
+# 新的训练集
+train = pd.concat([train,pseudo_labels],axis=0).reset_index(drop=True)
 ```
