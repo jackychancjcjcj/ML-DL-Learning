@@ -180,12 +180,10 @@ sub.to_csv('data/sub/sub_20211118_%.5f.csv' % kfold_best_f1, index=False)
 ```
 ## <span id='2.5'>cat 原生</span>
 ```python
-result = []
-ff = []
-mask_value = -9999
 folds = 5
 skf = StratifiedKFold(shuffle=True,n_splits=folds,random_state=1024)
 is_test = 0
+mask_value = -9999
 oof = np.zeros((len(train_df), 1))
 for fold, (train_idx, val_idx) in enumerate(skf.split(train_df, train_df['tag'].values)):
     print('-----------' + str(fold) + '---------------')
@@ -198,10 +196,10 @@ for fold, (train_idx, val_idx) in enumerate(skf.split(train_df, train_df['tag'].
     if is_test == 0:
         clf = cat.CatBoostClassifier(
                                      eval_metric='F1', use_best_model=True,
-                                     early_stopping_rounds=500, random_state=2021,
-                                     boosting_type='Plain', logging_level='Silent')
+                                     early_stopping_rounds=500, random_state=2022,
+                                     boosting_type='Plain', logging_level='Silent', task_type='GPU', devices='0')
 #                trn_data[np.isnan(trn_data)] = mask_value
-        clf.fit(trn_data, trn_label, eval_set=(val_data, val_label), verbose=None)
+        clf.fit(trn_data, trn_label, eval_set=(val_data, val_label), verbose=200)
     else:
         clf = cat.CatBoostClassifier(task_type='GPU', devices='0')
         clf.load_model(save_path)
