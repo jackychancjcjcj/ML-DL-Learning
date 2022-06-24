@@ -1121,6 +1121,8 @@ def nullImportant(train_df,select_frts):
 ```python
 # 得到伪标签
 pseudo_labels = prob.query('cat_prob >0.85 and lgb_prob >0.85 and lgb_label == cat_label')
+pseudo_labels = pseudo_labels.rename(columns={'lgb_label':'label'})
+pseudo_labels.drop(columns=['cat_prob','lgb_prob','cat_label'],inplace=True)
 # 新的训练集
 train = pd.concat([train,pseudo_labels],axis=0).reset_index(drop=True)
 ```
