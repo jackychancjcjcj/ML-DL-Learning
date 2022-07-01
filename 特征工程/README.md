@@ -303,6 +303,8 @@ for f in cols:
 常规target encoding：
 ```python
 import gc
+from sklearn.model_selection import KFold
+
 def stat(df, df_merge, group_by, agg):
     group = df.groupby(group_by).agg(agg)
 
@@ -319,37 +321,40 @@ def stat(df, df_merge, group_by, agg):
     return df_merge
 
 
-def statis_feat(df_know, df_unknow):
-    df_unknow = stat(df_know, df_unknow, ['民宿评分'], {'价格': ['mean', 'std', 'max']})
-    df_unknow = stat(df_know, df_unknow, ['邮编'], {'价格': ['mean', 'std', 'max']})
+def statis_feat(df_know, df_unknow, group_cols, label, methods=['mean', 'std']):
+    df_unknow = stat(df_know, df_unknow, group_cols, {label: methods})
+#     df_unknow = stat(df_know, df_unknow, group_cols, {label: methods})
 
     return df_unknow
 
 
-# 5折交叉
-df_train = df_features[~df_features['价格'].isnull()].reset_index(drop=True)
-df_test = df_features[df_features['价格'].isnull()].reset_index(drop=True)
+def target_encoding(df_features, group_cols, label):
+    # 5折交叉
+    df_train = df_features[~df_features[label].isnull()].reset_index(drop=True)
+    df_test = df_features[df_features[label].isnull()].reset_index(drop=True)
 
-df_stas_feat = None
-kf = KFold(n_splits=5, random_state=2021, shuffle=True)
-for train_index, val_index in kf.split(df_train):
-    df_fold_train = df_train.iloc[train_index]
-    df_fold_val = df_train.iloc[val_index]
+    df_stas_feat = None
+    kf = KFold(n_splits=5, random_state=2022, shuffle=True)
+    for train_index, val_index in kf.split(df_train):
+        df_fold_train = df_train.iloc[train_index]
+        df_fold_val = df_train.iloc[val_index]
 
-    df_fold_val = statis_feat(df_fold_train, df_fold_val)
-    df_stas_feat = pd.concat([df_stas_feat, df_fold_val], axis=0)
+        df_fold_val = statis_feat(df_fold_train, df_fold_val, group_cols, label)
+        df_stas_feat = pd.concat([df_stas_feat, df_fold_val], axis=0)
 
-    del(df_fold_train)
-    del(df_fold_val)
+        del(df_fold_train)
+        del(df_fold_val)
+        gc.collect()
+
+    df_test = statis_feat(df_train, df_test, group_cols, label)
+    df_features = pd.concat([df_stas_feat, df_test], axis=0)
+
+    del(df_stas_feat)
+    del(df_train)
+    del(df_test)
     gc.collect()
-
-df_test = statis_feat(df_train, df_test)
-df_features = pd.concat([df_stas_feat, df_test], axis=0)
-
-del(df_stas_feat)
-del(df_train)
-del(df_test)
-gc.collect()
+    
+    return df_features
 ```
 beta target encoding：  
 [资料](https://mp.weixin.qq.com/s?__biz=Mzk0NDE5Nzg1Ng==&mid=2247494163&idx=1&sn=5aba9ce08911f12b06619226809cdc7d&chksm=c32af39cf45d7a8aad50b7dfc58dc6eee6128d7f9c0998b86cdfb45f1419427b5ca6a4e0a3ec&mpshare=1&scene=1&srcid=0412roAaBBpbfWHKcbOgezod&sharer_sharetime=1618190773139&sharer_shareid=9b869c9a24181fe91d7ddd3f39c6511b&version=3.1.6.3605&platform=win#rd)  
