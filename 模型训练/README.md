@@ -138,7 +138,9 @@ for fold, (train_idx, val_idx) in enumerate(skf.split(train_df, train_df['tag'].
         'bagging_seed': 1,
         'feature_fraction_seed': 7,
         'min_data_in_leaf': 5,
-        'nthread': -1
+        'nthread': -1,
+        'device': 'gpu',
+        'gpu_device_id': 0
     }
 
     dtrain = lgb.Dataset(trn_data, label=trn_label)
