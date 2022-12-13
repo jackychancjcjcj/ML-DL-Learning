@@ -3,6 +3,7 @@
 * [Q-Q图](#2)
 * [测试集与训练集分布](#3)
 * [与目标变量相关性](#4)
+* [matplotlib项目](#5)
 ## <span id='1'>箱式图</span>
 ```python
 column = train_data.columns.tolist()[:39]  # 列表头
@@ -69,3 +70,5 @@ for col in test_data.columns:
     sns.distplot(train_data[col].dropna())
     plt.xlabel(col)
 ```
+## <span id='5'>matplotlib项目</span>
+https://www.heywhale.com/mw/project/5f4b3f146476cf0036f7e51e
