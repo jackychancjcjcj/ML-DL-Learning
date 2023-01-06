@@ -549,6 +549,51 @@ for i in range(emb_size):
 
 df_features.head()
 ```
+
+```python
+def emb2(df, f1, f2):
+	emb_size = 8
+	tmp = df.groupby(f1, as_index=False)[f2].agg({'{}_{}_list'.format(f1, f2): list})
+	sentences = tmp['{}_{}_list'.format(f1, f2)].values.tolist()
+	del tmp['{}_{}_list'.format(f1, f2)]
+	for i in range(len(sentences)):
+		sentences[i] = [str(x) for x in sentences[i]]
+	model = Word2Vec(sentences, size=emb_size, window=6, min_count=5, sg=0, hs=0, seed=1, iter=5)
+	emb_matrix = []
+	for seq in sentences:
+		vec = []
+		for w in seq:
+			if w in model.wv.vocab:
+				vec.append(model.wv[w])
+		if len(vec) > 0:
+			emb_matrix.append(np.mean(vec, axis=0))
+		else:
+			emb_matrix.append([0] * emb_size)
+	emb_matrix = np.array(emb_matrix)
+	for i in range(emb_size):
+		tmp['{}_{}_emb_{}'.format(f1, f2, i)] = emb_matrix[:, i]
+
+	word_list = []
+	emb_matrix2 = []
+	for w in model.wv.vocab:
+		word_list.append(w)
+		emb_matrix2.append(model.wv[w])
+	emb_matrix2 = np.array(emb_matrix2)
+	tmp2 = pd.DataFrame()
+	tmp2[f2] = np.array(word_list).astype('int')
+	for i in range(emb_size):
+		tmp2['{}_{}_emb_{}'.format(f2, f1, i)] = emb_matrix2[:, i]
+	return tmp, tmp2
+
+# embedding特征
+print('开始构造emb特征')
+emb_cols = [['uid', 'adv_id']]
+sort_df = df.sort_values('pt_d').reset_index(drop=True)
+for f1, f2 in emb_cols:
+	tmp, tmp2 = emb2(sort_df, f1, f2)
+	df = df.merge(tmp, on=f1, how='left').merge(tmp2, on=f2, how='left').fillna(0)
+
+```
 ## <span id='11'>熵+nunique值</span>
 ```python
 from scipy.stats import entropy
