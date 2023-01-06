@@ -551,6 +551,8 @@ df_features.head()
 ```
 
 ```python
+from gensim.models import Word2Vec
+
 def emb2(df, f1, f2):
 	emb_size = 8
 	tmp = df.groupby(f1, as_index=False)[f2].agg({'{}_{}_list'.format(f1, f2): list})
