@@ -486,6 +486,8 @@ for c in cat_cols:
 
 ## <span id='9'>TF-IDF编码</span>
 ```python
+import joblib
+
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
 df_features['便利设施'] = df_features['便利设施'].apply(
@@ -494,16 +496,26 @@ df_features['便利设施'] = df_features['便利设施'].apply(
 
 n_components = 12
 
-X = list(df_features['便利设施'].values)
-tfv = TfidfVectorizer(ngram_range=(1,1), max_features=10000)
-tfv.fit(X)
+try:
+    tfv = joblib.load('TfidfVectorizer.pkl')
+    print('load tfv success')
+except:
+    tfv = TfidfVectorizer(ngram_range=(2,2), max_features=10000)
+    tfv.fit(X)
 X_tfidf = tfv.transform(X)
-svd = TruncatedSVD(n_components= n_components)
-svd.fit(X_tfidf)
+try:
+    svd = joblib.load('TruncatedSVD.pkl')
+    print('load svd success')
+except:
+    svd = TruncatedSVD(n_components= n_components)
+    svd.fit(X_tfidf)
 X_svd = svd.transform(X_tfidf)
 
 for i in range(n_components):
-    df_features[f'便利设施_tfidf_{i}'] = X_svd[:, i]
+    df_features[f'tfidf_{i}'] = X_svd[:, i]
+    
+# joblib.dump(tfv, 'TfidfVectorizer.pkl')
+# joblib.dump(svd, 'TruncatedSVD.pkl')
 ```
 ## <span id='10'>W2V编码</span>
 ```python
