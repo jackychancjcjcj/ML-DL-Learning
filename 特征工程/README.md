@@ -977,10 +977,44 @@ get_first_svd_features('authorid')
 ```
 ## <span id='24'>时间处理</span>
 ```python
-df['timestamp'] = df['time'].apply(lambda x:time.mktime(time.strptime(x, '%Y-%m-%d %H:%M:%S)))
+data['time'] = data['timestamp'].apply(lambda x:time.mktime(time.strptime(x, '%Y-%m-%d %H:%M:%S)))
 data['day'] = data['time'].dt.day
 data['dayofweek'] = data['time'].dt.dayofweek
+data['weekday'] = data['time'].dt.weekday
 data['hour'] = data['time'].dt.hour
+data['minute'] = data['time'].dt.minute
+data['second'] = data['time'].dt.second
+
+data['hour_sin'] = np.sin(data['hour']/60*2*np.pi)
+data['hour_cos'] = np.cos(data['hour']/60*2*np.pi)
+data['second_sin'] = np.sin(data['sec']/60*2*np.pi)
+data['second_cos'] = np.cos(data['sec']/60*2*np.pi)
+data['minute_sin'] = np.sin(data['minute']/60*2*np.pi)
+data['minute_cos'] = np.cos(data['minute']/60*2*np.pi)
+
+data['timestamp'] = data["time"].values.astype(np.int64) // 10 ** 9
+data = data.sort_values(by=['user_name', 'timestamp']).reset_index(drop=True)
+data['last_ts'] = data.groupby(['user_name'])['timestamp'].shift(1)
+data['last_ts2'] = data.groupby(['user_name'])['timestamp'].shift(2)
+data['ts_diff'] = data['timestamp'] - data['last_ts']
+data['ts_diff2'] = data['timestamp'] - data['last_ts2']
+
+### 周期特征
+data['common_ts']=data['common_ts']/31536000000+1970-2023
+# 增加新的特征
+data['sin_norm']=np.sin(2*np.pi*(data['common_ts']-0.567872)/0.008717)
+data['cos_norm']=np.cos(2*np.pi*(data['common_ts']-0.567872)/0.008717)
+data['sin']=np.sin(2*np.pi*data['common_ts'])
+data['cos']=np.cos(2*np.pi*data['common_ts'])
+# 提取日期和小时信息
+data['common_ts']=(data['common_ts']+2023-1970)*31536000000
+data['common_ts']=pd.to_datetime(data['common_ts'],unit='ms')
+data['day'] = data.common_ts.dt.day
+data['hour'] = data.common_ts.dt.hour
+data['is_evening']=(data['hour']<=5)| (data['hour']>=19)
+data['up_of_month']=data['day']<=10
+data['mid_of_month']=(data['day']>10)&(data['day']<20)
+data['down_of_month']=data['day']>=20
 ```
 ## <span id='25'>树模型tag_pooling</span>
 1：tag-pooling-encoder  
