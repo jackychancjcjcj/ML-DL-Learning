@@ -979,8 +979,10 @@ get_first_svd_features('authorid')
 ```python
 data['time'] = data['timestamp'].apply(lambda x:time.mktime(time.strptime(x, '%Y-%m-%d %H:%M:%S)))
 data['day'] = data['time'].dt.day
+data['week'] = data['day'] // 7
 data['dayofweek'] = data['time'].dt.dayofweek
 data['weekday'] = data['time'].dt.weekday
+data['weekend']=(data['weekday']==5)|(data['weekday']==6)
 data['hour'] = data['time'].dt.hour
 data['minute'] = data['time'].dt.minute
 data['second'] = data['time'].dt.second
