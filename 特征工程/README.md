@@ -985,8 +985,8 @@ data['hour'] = data['time'].dt.hour
 data['minute'] = data['time'].dt.minute
 data['second'] = data['time'].dt.second
 
-data['hour_sin'] = np.sin(data['hour']/60*2*np.pi)
-data['hour_cos'] = np.cos(data['hour']/60*2*np.pi)
+data['hour_sin'] = np.sin(data['hour']/24*2*np.pi)
+data['hour_cos'] = np.cos(data['hour']/24*2*np.pi)
 data['second_sin'] = np.sin(data['sec']/60*2*np.pi)
 data['second_cos'] = np.cos(data['sec']/60*2*np.pi)
 data['minute_sin'] = np.sin(data['minute']/60*2*np.pi)
