@@ -30,6 +30,7 @@
 * [时间划窗](#27)
 * [NULLimportance筛选特征](#28)
 * [伪标签](#29)
+* [无监督异常特征](#30)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -1226,4 +1227,38 @@ pseudo_labels = pseudo_labels.rename(columns={'lgb_label':'label'})
 pseudo_labels.drop(columns=['cat_prob','lgb_prob','cat_label'],inplace=True)
 # 新的训练集
 train = pd.concat([train,pseudo_labels],axis=0).reset_index(drop=True)
+```
+
+## <span id='30'>无监督异常特征</span>
+```python
+from sklearn.neighbors import LocalOutlierFactor
+from sklearn.ensemble import IsolationForest
+from sklearn.preprocessing import StandardScaler
+import pickle
+# 标准化，方便距离度量
+zscore_scaler = StandardScaler()
+zscore_scaler.fit(samples)
+samples = zscore_scaler.transform(samples)
+samples = pd.DataFrame(samples)
+pickle.dump(zscore_scaler, open('./components/zscore_scaler.pkl','wb'))
+# 无监督异常检测模型
+left_sample_nums = 200  # 从正常样本（OK）中留出一部分用于训练无监督模型
+outlier_clf = LocalOutlierFactor(n_neighbors=20, novelty=True)  # 基于密度的Lof模型
+outlier_clf.fit(samples.iloc[:left_sample_nums, :])
+pickle.dump(outlier_clf, open('./components/lof_model.pkl', 'wb'))
+outlier_iof = IsolationForest()  # 基于树的孤立森林模型，与Lof取其一即可
+outlier_iof.fit(samples.iloc[:left_sample_nums, :])
+pickle.dump(outlier_iof, open('./components/iof_model.pkl', 'wb'))
+# 用于后续训练有监督模型的样本集合
+samples_supervised = samples.iloc[left_sample_nums:, :].reset_index(drop=True)
+lof_predict_res = outlier_clf.predict(samples.iloc[left_sample_nums:, :])  # 判断是否异常
+lof_predict_score = outlier_clf.score_samples(samples.iloc[left_sample_nums:, :])  # 异常程度得分
+samples_supervised['lof_predict_res'] = lof_predict_res
+samples_supervised['lof_predict_score'] = lof_predict_score
+iof_predict_res = outlier_iof.predict(samples.iloc[left_sample_nums:, :])
+iof_predict_score = outlier_iof.score_samples(samples.iloc[left_sample_nums:, :])
+samples_supervised['iof_predict_res'] = iof_predict_res
+samples_supervised['iof_predict_score'] = iof_predict_score
+samples = samples_supervised
+labels = labels[left_sample_nums:]
 ```
