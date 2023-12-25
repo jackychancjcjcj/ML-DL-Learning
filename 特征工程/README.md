@@ -31,6 +31,7 @@
 * [NULLimportance筛选特征](#28)
 * [伪标签](#29)
 * [无监督异常特征](#30)
+* [psi计算](#31)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -1261,4 +1262,20 @@ samples_supervised['iof_predict_res'] = iof_predict_res
 samples_supervised['iof_predict_score'] = iof_predict_score
 samples = samples_supervised
 labels = labels[left_sample_nums:]
+```
+
+## <span id='31'>psi计算</span>
+```python
+def psi_train_test(df1,df2,var_list):
+    result=[]
+    for col in var_list:
+        psi=toad.metrics.PSI(df1[col],df2[col])
+        result.append({'col':col,'psi':psi})
+    result=pd.DataFrame(result).set_index('col')
+    return result
+    
+x_train,x_test, y_train, y_test =train_test_split(train[all_fea],train['target'],test_size=0.2, random_state=123)
+train_test_psi=psi_train_test(x_train,x_test,all_fea)
+train_oot_psi=psi_train_test(x_train,oot,all_fea)
+train_test_psi.sort_values('psi',ascending=False).head(20)
 ```
