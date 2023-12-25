@@ -32,6 +32,7 @@
 * [伪标签](#29)
 * [无监督异常特征](#30)
 * [psi计算](#31)
+* [iv值计算](#32)
 ## <span id='1'>分箱特征</span>
 ```python
 # ===================== amount_feas 分箱特征 ===============
@@ -1278,4 +1279,20 @@ x_train,x_test, y_train, y_test =train_test_split(train[all_fea],train['target']
 train_test_psi=psi_train_test(x_train,x_test,all_fea)
 train_oot_psi=psi_train_test(x_train,oot,all_fea)
 train_test_psi.sort_values('psi',ascending=False).head(20)
+```
+## <span id='32'>iv值计算</span>
+```python
+import toad
+def iv_miss(df,var_list,y):
+    df_tmp=df[df[y].notnull()].copy()
+    
+    iv_all=toad.quality(df_tmp[var_list+[y]], target=y, indicators = ['iv','unique'])[['unique','iv']]
+    iv_all.columns=['unique',y+'_iv']
+
+    miss_per=pd.DataFrame(df[var_list].isnull().sum()/(df.shape[0]))
+    miss_per.columns=['缺失率']
+    result=pd.concat([miss_per,iv_all],axis=1)
+    return result
+df_iv=iv_miss(df,all_fea,'target')
+df_iv.sort_values('target_iv',ascending=False).head(50)
 ```
